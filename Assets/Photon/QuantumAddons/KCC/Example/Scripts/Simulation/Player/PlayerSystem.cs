@@ -72,8 +72,7 @@ namespace Quantum
                 }
 
                 else
-
-                lastDPressTime = frame.DeltaTime;
+                    lastDPressTime = frame.DeltaTime;
             }
 
             // Continue dashing if in dash state
