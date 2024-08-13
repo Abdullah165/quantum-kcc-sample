@@ -858,17 +858,31 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Player : Quantum.IComponent {
-    public const Int32 SIZE = 32;
+    public const Int32 SIZE = 64;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(16)]
+    [FieldOffset(48)]
     public FP JumpForce;
-    [FieldOffset(8)]
+    [FieldOffset(40)]
     public FP DashForce;
-    [FieldOffset(24)]
+    [FieldOffset(56)]
     public FP LastDashTime;
-    [FieldOffset(4)]
-    public QBoolean IsDashing;
+    [FieldOffset(12)]
+    public Int32 tapWindow;
+    [FieldOffset(16)]
+    public Int32 wTapCounter;
     [FieldOffset(0)]
+    public Int32 dTapCounter;
+    [FieldOffset(24)]
+    public QBoolean isDashing;
+    [FieldOffset(4)]
+    public Int32 dashFrameDuration;
+    [FieldOffset(8)]
+    public Int32 dashFrameTimer;
+    [FieldOffset(32)]
+    public QBoolean lastWPressed;
+    [FieldOffset(28)]
+    public QBoolean lastDPressed;
+    [FieldOffset(20)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
     public override Int32 GetHashCode() {
@@ -877,15 +891,29 @@ namespace Quantum {
         hash = hash * 31 + JumpForce.GetHashCode();
         hash = hash * 31 + DashForce.GetHashCode();
         hash = hash * 31 + LastDashTime.GetHashCode();
-        hash = hash * 31 + IsDashing.GetHashCode();
+        hash = hash * 31 + tapWindow.GetHashCode();
+        hash = hash * 31 + wTapCounter.GetHashCode();
+        hash = hash * 31 + dTapCounter.GetHashCode();
+        hash = hash * 31 + isDashing.GetHashCode();
+        hash = hash * 31 + dashFrameDuration.GetHashCode();
+        hash = hash * 31 + dashFrameTimer.GetHashCode();
+        hash = hash * 31 + lastWPressed.GetHashCode();
+        hash = hash * 31 + lastDPressed.GetHashCode();
         hash = hash * 31 + PlayerRef.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Player*)ptr;
+        serializer.Stream.Serialize(&p->dTapCounter);
+        serializer.Stream.Serialize(&p->dashFrameDuration);
+        serializer.Stream.Serialize(&p->dashFrameTimer);
+        serializer.Stream.Serialize(&p->tapWindow);
+        serializer.Stream.Serialize(&p->wTapCounter);
         PlayerRef.Serialize(&p->PlayerRef, serializer);
-        QBoolean.Serialize(&p->IsDashing, serializer);
+        QBoolean.Serialize(&p->isDashing, serializer);
+        QBoolean.Serialize(&p->lastDPressed, serializer);
+        QBoolean.Serialize(&p->lastWPressed, serializer);
         FP.Serialize(&p->DashForce, serializer);
         FP.Serialize(&p->JumpForce, serializer);
         FP.Serialize(&p->LastDashTime, serializer);

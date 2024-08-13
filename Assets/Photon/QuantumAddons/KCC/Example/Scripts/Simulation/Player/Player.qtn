@@ -3,7 +3,16 @@ component Player
 	FP JumpForce;
     FP DashForce;
     FP LastDashTime;
-    Boolean IsDashing;
+    int tapWindow;           
+    int wTapCounter;           
+    int dTapCounter;          
+
+    bool isDashing;
+    int dashFrameDuration;    
+    int dashFrameTimer;
+
+     bool lastWPressed ;     
+     bool lastDPressed ;
     [HideInInspector]
     PlayerRef PlayerRef;
 }

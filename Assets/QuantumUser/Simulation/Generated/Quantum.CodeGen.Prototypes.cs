@@ -233,7 +233,14 @@ namespace Quantum.Prototypes {
     public FP JumpForce;
     public FP DashForce;
     public FP LastDashTime;
-    public QBoolean IsDashing;
+    public Int32 tapWindow;
+    public Int32 wTapCounter;
+    public Int32 dTapCounter;
+    public QBoolean isDashing;
+    public Int32 dashFrameDuration;
+    public Int32 dashFrameTimer;
+    public QBoolean lastWPressed;
+    public QBoolean lastDPressed;
     [HideInInspector()]
     public PlayerRef PlayerRef;
     partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
@@ -246,7 +253,14 @@ namespace Quantum.Prototypes {
         result.JumpForce = this.JumpForce;
         result.DashForce = this.DashForce;
         result.LastDashTime = this.LastDashTime;
-        result.IsDashing = this.IsDashing;
+        result.tapWindow = this.tapWindow;
+        result.wTapCounter = this.wTapCounter;
+        result.dTapCounter = this.dTapCounter;
+        result.isDashing = this.isDashing;
+        result.dashFrameDuration = this.dashFrameDuration;
+        result.dashFrameTimer = this.dashFrameTimer;
+        result.lastWPressed = this.lastWPressed;
+        result.lastDPressed = this.lastDPressed;
         result.PlayerRef = this.PlayerRef;
         MaterializeUser(frame, ref result, in context);
     }
