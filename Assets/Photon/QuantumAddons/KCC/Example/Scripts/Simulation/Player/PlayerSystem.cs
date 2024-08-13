@@ -36,16 +36,16 @@ namespace Quantum
             // Handle dash logic
             if (input->MoveDirection.Y > 0) // "W" key pressed
             {
-                // Check if the time between this press and the last press is within the DashCooldown
+                
                 if (frame.DeltaTime - lastWPressTime < DashCooldown)
                 {
-                    // Immediately trigger dash on second "W" press
+                   
                     isDashing = true;
-                    dashTimer = DashDuration; // Start dash timer
+                    dashTimer = DashDuration; 
                     PerformDash(kcc, player, FPVector3.Forward, 1000);
                 }
 
-                // Update the last press time to the current time
+                
                 lastWPressTime = frame.DeltaTime;
             }
 
@@ -67,7 +67,7 @@ namespace Quantum
             {
                 dashTimer -= frame.DeltaTime;
 
-                // End dash if the timer runs out
+                
                 if (dashTimer <= FP._0)
                 {
                     isDashing = false;
