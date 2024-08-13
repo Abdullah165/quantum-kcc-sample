@@ -6,18 +6,6 @@ namespace Quantum
     [Preserve]
     public unsafe class PlayerSystem : SystemMainThreadFilter<PlayerSystem.Filter>, ISignalOnComponentAdded<Player>
     {
-<<<<<<< HEAD
-=======
-        private FP lastWPressTime;
-        private FP lastDPressTime;
-        private bool isDashing;
-        private FP dashTimer;
-
-        private FP DashCooldown = FP._0_05; 
-        private FP DashDuration = FP._0_02;
-        private FP NormalSpeed = FP._1;
->>>>>>> 1f14b0620be281217b095d0b606baf8b2de04c74
-
         public struct Filter
         {
             public EntityRef Entity;
@@ -38,7 +26,6 @@ namespace Quantum
 
             if (input->Jump.WasPressed && kcc->IsGrounded)
             {
-<<<<<<< HEAD
                 kcc->Jump(FPVector3.Up * player->JumpForce);
             }
 
@@ -58,7 +45,7 @@ namespace Quantum
                     
                     player->wTapCounter = 1;
                 }
-=======
+
                 
                 if (frame.DeltaTime - lastWPressTime < DashCooldown)
                 {
@@ -70,7 +57,6 @@ namespace Quantum
 
                 
                 lastWPressTime = frame.DeltaTime;
->>>>>>> 1f14b0620be281217b095d0b606baf8b2de04c74
             }
 
             // Handle dash logic for "D" key
@@ -84,9 +70,8 @@ namespace Quantum
                     PerformDash(kcc, FPVector3.Right, player->DashForce);
                     player->dTapCounter = 0; // Reset counter after dash
                 }
-<<<<<<< HEAD
+
                 else
-=======
 
                 lastDPressTime = frame.DeltaTime;
             }
@@ -98,7 +83,6 @@ namespace Quantum
 
                 
                 if (dashTimer <= FP._0)
->>>>>>> 1f14b0620be281217b095d0b606baf8b2de04c74
                 {
                     
                     player->dTapCounter = 1;
@@ -153,7 +137,6 @@ namespace Quantum
         {
             FPVector3 movementDirection = kcc->Data.TransformRotation * input->MoveDirection.XOY;
             kcc->SetInputDirection(movementDirection); 
-<<<<<<< HEAD
         }
 
         public void OnAdded(Frame f, EntityRef entity, Player* player)
@@ -169,8 +152,6 @@ namespace Quantum
 
             player->lastWPressed = false; // Flags to track key press state
             player->lastDPressed = false;
-=======
->>>>>>> 1f14b0620be281217b095d0b606baf8b2de04c74
         }
     }
 }
