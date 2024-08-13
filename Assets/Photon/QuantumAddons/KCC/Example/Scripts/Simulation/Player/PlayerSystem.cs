@@ -96,7 +96,7 @@ namespace Quantum
         private void HandleNormalMovement(KCC* kcc, Input* input)
         {
             FPVector3 movementDirection = kcc->Data.TransformRotation * input->MoveDirection.XOY;
-            kcc->SetInputDirection(movementDirection); // Apply normal speed
+            kcc->SetInputDirection(movementDirection); 
         }
     }
 }
