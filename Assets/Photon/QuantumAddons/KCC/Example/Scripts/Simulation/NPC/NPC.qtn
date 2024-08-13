@@ -1,0 +1,9 @@
+component NPC
+{
+    [HideInInspector]
+    FP CheckTime;
+    [HideInInspector]
+    FPVector3 CheckPosition;
+    [HideInInspector]
+    FPVector3 TargetPosition;
+}

@@ -1,0 +1,14 @@
+Photon Quantum KCC Sample - Release History
+
+Version 3.0.2
+- Updated KCC to 3.0.2.
+- Updated Quantum SDK to 3.0.0 RC 1523.
+- Added [Preserve] attribute to systems to prevent stripping.
+- Removed GameplayData QTN file with asset definition. The class is now derived directly from AssetObject.
+- Quantum Menu compatibility changes.
+
+Version 3.0.1
+- Updated KCC to 3.0.1.
+
+Version 3.0.0
+- Initial release.

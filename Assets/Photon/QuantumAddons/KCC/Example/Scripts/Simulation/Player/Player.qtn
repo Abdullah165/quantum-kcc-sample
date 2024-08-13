@@ -1,0 +1,9 @@
+component Player
+{
+	FP JumpForce;
+    FP DashForce;
+    FP LastDashTime;
+    Boolean IsDashing;
+    [HideInInspector]
+    PlayerRef PlayerRef;
+}
