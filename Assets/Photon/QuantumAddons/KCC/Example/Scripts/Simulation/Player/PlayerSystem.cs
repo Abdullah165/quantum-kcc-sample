@@ -30,11 +30,11 @@ namespace Quantum
             }
 
             // Handle dash logic for "W" key
-            if (input->MoveDirection.Y > 0 && !player->lastWPressed) 
+            if (input->MoveDirection.Y > 0 && !player->lastWPressed)
             {
                 if (player->wTapCounter > 0 && player->wTapCounter <= player->tapWindow)
                 {
-                   
+
                     player->isDashing = true;
                     player->dashFrameTimer = player->dashFrameDuration;
                     PerformDash(kcc, FPVector3.Forward, player->DashForce);
@@ -42,71 +42,48 @@ namespace Quantum
                 }
                 else
                 {
-                    
+
                     player->wTapCounter = 1;
                 }
-
-                
-                if (frame.DeltaTime - lastWPressTime < DashCooldown)
-                {
-                   
-                    isDashing = true;
-                    dashTimer = DashDuration; 
-                    PerformDash(kcc, player, FPVector3.Forward, 1000);
-                }
-
-                
-                lastWPressTime = frame.DeltaTime;
             }
 
             // Handle dash logic for "D" key
-            if (input->MoveDirection.X > 0 && !player->lastDPressed) 
+            if (input->MoveDirection.X > 0 && !player->lastDPressed)
             {
                 if (player->dTapCounter > 0 && player->dTapCounter <= player->tapWindow)
                 {
-                    
+
                     player->isDashing = true;
                     player->dashFrameTimer = player->dashFrameDuration;
                     PerformDash(kcc, FPVector3.Right, player->DashForce);
                     player->dTapCounter = 0; // Reset counter after dash
                 }
-
                 else
-                    lastDPressTime = frame.DeltaTime;
-            }
-
-            // Continue dashing if in dash state
-            if (isDashing)
-            {
-                dashTimer -= frame.DeltaTime;
-
-                
-                if (dashTimer <= FP._0)
                 {
-                    
+
                     player->dTapCounter = 1;
                 }
             }
 
-         
+
             if (player->isDashing)
             {
                 player->dashFrameTimer--;
 
-              
+
                 if (player->dashFrameTimer <= 0)
                 {
                     player->isDashing = false;
                 }
             }
 
-            
+
             if (!player->isDashing)
             {
                 HandleNormalMovement(kcc, input);
             }
 
-            
+
             if (player->wTapCounter > 0 && player->wTapCounter <= player->tapWindow)
             {
                 player->wTapCounter++;
@@ -117,7 +94,7 @@ namespace Quantum
                 player->dTapCounter++;
             }
 
-         
+
             if (player->wTapCounter > player->tapWindow) player->wTapCounter = 0;
             if (player->dTapCounter > player->tapWindow) player->dTapCounter = 0;
 
@@ -135,15 +112,15 @@ namespace Quantum
         private void HandleNormalMovement(KCC* kcc, Input* input)
         {
             FPVector3 movementDirection = kcc->Data.TransformRotation * input->MoveDirection.XOY;
-            kcc->SetInputDirection(movementDirection); 
+            kcc->SetInputDirection(movementDirection);
         }
 
         public void OnAdded(Frame f, EntityRef entity, Player* player)
         {
             player->DashForce = 100000;
             player->tapWindow = 15; // Number of frames within which a double-tap is detected
-            player->wTapCounter = 0; 
-            player->dTapCounter = 0; 
+            player->wTapCounter = 0;
+            player->dTapCounter = 0;
 
             player->isDashing = false;
             player->dashFrameDuration = 10; // Number of frames the dash lasts
