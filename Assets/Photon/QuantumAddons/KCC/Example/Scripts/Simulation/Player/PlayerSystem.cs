@@ -9,11 +9,11 @@ namespace Quantum
         private FP lastWPressTime;
         private FP lastDPressTime;
         private bool isDashing;
-        private FP dashTimer; // Timer to track dash duration
+        private FP dashTimer;
 
-        private FP DashCooldown = FP._0_05; // Time window to detect double tap for dash
-        private FP DashDuration = FP._0_02; // Duration of the dash
-        private FP NormalSpeed = FP._1; // Normal movement speed
+        private FP DashCooldown = FP._0_05; 
+        private FP DashDuration = FP._0_02;
+        private FP NormalSpeed = FP._1;
 
         public struct Filter
         {
