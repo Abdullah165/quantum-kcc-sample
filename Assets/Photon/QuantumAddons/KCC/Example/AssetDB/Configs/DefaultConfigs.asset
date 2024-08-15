@@ -122,6 +122,11 @@ MonoBehaviour:
     SystemName: 
     StartDisabled: 0
     Children: []
+  - SystemType:
+      AssemblyQualifiedName: Quantum.ClimbingSurfaceCollisionsSystem, Quantum.Simulation
+    SystemName: 
+    StartDisabled: 0
+    Children: []
 --- !u!114 &-4598482520668336649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,6 +333,8 @@ MonoBehaviour:
       RawValue: 0
     MinAngularIntegration:
       RawValue: 0
+    MinContactInverseMass:
+      RawValue: 35
     SimplexMinBitShift: 0
     SimplexMaxBitShift: 2
     ShapeCastMaxIterations: 16

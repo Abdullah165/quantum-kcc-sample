@@ -50,6 +50,21 @@ namespace Quantum.Prototypes {
   #endif //;
   
   [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.ClimbingSurface))]
+  public unsafe partial class ClimbingSurfacePrototype : ComponentPrototype<Quantum.ClimbingSurface> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.ClimbingSurface result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.ClimbingSurface component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.ClimbingSurface result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Input))]
   public unsafe partial class InputPrototype : StructPrototype {
     public FPVector2 MoveDirection;
@@ -235,12 +250,18 @@ namespace Quantum.Prototypes {
     public FP LastDashTime;
     public Int32 tapWindow;
     public Int32 wTapCounter;
+    public Int32 sTapCounter;
     public Int32 dTapCounter;
+    public Int32 aTapCounter;
     public QBoolean isDashing;
     public Int32 dashFrameDuration;
     public Int32 dashFrameTimer;
     public QBoolean lastWPressed;
     public QBoolean lastDPressed;
+    public QBoolean lastAPressed;
+    public QBoolean lastSPressed;
+    public QBoolean isClimbing;
+    public FP ClimbSpeed;
     [HideInInspector()]
     public PlayerRef PlayerRef;
     partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
@@ -255,12 +276,18 @@ namespace Quantum.Prototypes {
         result.LastDashTime = this.LastDashTime;
         result.tapWindow = this.tapWindow;
         result.wTapCounter = this.wTapCounter;
+        result.sTapCounter = this.sTapCounter;
         result.dTapCounter = this.dTapCounter;
+        result.aTapCounter = this.aTapCounter;
         result.isDashing = this.isDashing;
         result.dashFrameDuration = this.dashFrameDuration;
         result.dashFrameTimer = this.dashFrameTimer;
         result.lastWPressed = this.lastWPressed;
         result.lastDPressed = this.lastDPressed;
+        result.lastAPressed = this.lastAPressed;
+        result.lastSPressed = this.lastSPressed;
+        result.isClimbing = this.isClimbing;
+        result.ClimbSpeed = this.ClimbSpeed;
         result.PlayerRef = this.PlayerRef;
         MaterializeUser(frame, ref result, in context);
     }

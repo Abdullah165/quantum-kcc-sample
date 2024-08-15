@@ -758,6 +758,22 @@ namespace Quantum {
     }
   }
   [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct ClimbingSurface : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 21143;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (ClimbingSurface*)ptr;
+    }
+  }
+  [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct KCC : Quantum.IComponent {
     public const Int32 SIZE = 552;
     public const Int32 ALIGNMENT = 8;
@@ -858,31 +874,43 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Player : Quantum.IComponent {
-    public const Int32 SIZE = 64;
+    public const Int32 SIZE = 88;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(48)]
+    [FieldOffset(72)]
     public FP JumpForce;
-    [FieldOffset(40)]
+    [FieldOffset(64)]
     public FP DashForce;
-    [FieldOffset(56)]
+    [FieldOffset(80)]
     public FP LastDashTime;
-    [FieldOffset(12)]
-    public Int32 tapWindow;
-    [FieldOffset(16)]
-    public Int32 wTapCounter;
-    [FieldOffset(0)]
-    public Int32 dTapCounter;
-    [FieldOffset(24)]
-    public QBoolean isDashing;
-    [FieldOffset(4)]
-    public Int32 dashFrameDuration;
-    [FieldOffset(8)]
-    public Int32 dashFrameTimer;
-    [FieldOffset(32)]
-    public QBoolean lastWPressed;
-    [FieldOffset(28)]
-    public QBoolean lastDPressed;
     [FieldOffset(20)]
+    public Int32 tapWindow;
+    [FieldOffset(24)]
+    public Int32 wTapCounter;
+    [FieldOffset(16)]
+    public Int32 sTapCounter;
+    [FieldOffset(4)]
+    public Int32 dTapCounter;
+    [FieldOffset(0)]
+    public Int32 aTapCounter;
+    [FieldOffset(36)]
+    public QBoolean isDashing;
+    [FieldOffset(8)]
+    public Int32 dashFrameDuration;
+    [FieldOffset(12)]
+    public Int32 dashFrameTimer;
+    [FieldOffset(52)]
+    public QBoolean lastWPressed;
+    [FieldOffset(44)]
+    public QBoolean lastDPressed;
+    [FieldOffset(40)]
+    public QBoolean lastAPressed;
+    [FieldOffset(48)]
+    public QBoolean lastSPressed;
+    [FieldOffset(32)]
+    public QBoolean isClimbing;
+    [FieldOffset(56)]
+    public FP ClimbSpeed;
+    [FieldOffset(28)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
     public override Int32 GetHashCode() {
@@ -893,35 +921,55 @@ namespace Quantum {
         hash = hash * 31 + LastDashTime.GetHashCode();
         hash = hash * 31 + tapWindow.GetHashCode();
         hash = hash * 31 + wTapCounter.GetHashCode();
+        hash = hash * 31 + sTapCounter.GetHashCode();
         hash = hash * 31 + dTapCounter.GetHashCode();
+        hash = hash * 31 + aTapCounter.GetHashCode();
         hash = hash * 31 + isDashing.GetHashCode();
         hash = hash * 31 + dashFrameDuration.GetHashCode();
         hash = hash * 31 + dashFrameTimer.GetHashCode();
         hash = hash * 31 + lastWPressed.GetHashCode();
         hash = hash * 31 + lastDPressed.GetHashCode();
+        hash = hash * 31 + lastAPressed.GetHashCode();
+        hash = hash * 31 + lastSPressed.GetHashCode();
+        hash = hash * 31 + isClimbing.GetHashCode();
+        hash = hash * 31 + ClimbSpeed.GetHashCode();
         hash = hash * 31 + PlayerRef.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Player*)ptr;
+        serializer.Stream.Serialize(&p->aTapCounter);
         serializer.Stream.Serialize(&p->dTapCounter);
         serializer.Stream.Serialize(&p->dashFrameDuration);
         serializer.Stream.Serialize(&p->dashFrameTimer);
+        serializer.Stream.Serialize(&p->sTapCounter);
         serializer.Stream.Serialize(&p->tapWindow);
         serializer.Stream.Serialize(&p->wTapCounter);
         PlayerRef.Serialize(&p->PlayerRef, serializer);
+        QBoolean.Serialize(&p->isClimbing, serializer);
         QBoolean.Serialize(&p->isDashing, serializer);
+        QBoolean.Serialize(&p->lastAPressed, serializer);
         QBoolean.Serialize(&p->lastDPressed, serializer);
+        QBoolean.Serialize(&p->lastSPressed, serializer);
         QBoolean.Serialize(&p->lastWPressed, serializer);
+        FP.Serialize(&p->ClimbSpeed, serializer);
         FP.Serialize(&p->DashForce, serializer);
         FP.Serialize(&p->JumpForce, serializer);
         FP.Serialize(&p->LastDashTime, serializer);
     }
   }
+  public unsafe partial interface ISignalOnCollisionPlayerHitClimbingSurface : ISignal {
+    void OnCollisionPlayerHitClimbingSurface(Frame f, CollisionInfo3D info, Player* player);
+  }
+  public unsafe partial interface ISignalOnCollisionPlayerExitClimbingSurface : ISignal {
+    void OnCollisionPlayerExitClimbingSurface(Frame f, ExitInfo3D info, Player* player);
+  }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
+    private ISignalOnCollisionPlayerHitClimbingSurface[] _ISignalOnCollisionPlayerHitClimbingSurfaceSystems;
+    private ISignalOnCollisionPlayerExitClimbingSurface[] _ISignalOnCollisionPlayerExitClimbingSurfaceSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -933,12 +981,16 @@ namespace Quantum {
     }
     partial void InitGen() {
       Initialize(this, this.SimulationConfig.Entities, 256);
+      _ISignalOnCollisionPlayerHitClimbingSurfaceSystems = BuildSignalsArray<ISignalOnCollisionPlayerHitClimbingSurface>();
+      _ISignalOnCollisionPlayerExitClimbingSurfaceSystems = BuildSignalsArray<ISignalOnCollisionPlayerExitClimbingSurface>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<CharacterController2D>();
       BuildSignalsArrayOnComponentRemoved<CharacterController2D>();
       BuildSignalsArrayOnComponentAdded<CharacterController3D>();
       BuildSignalsArrayOnComponentRemoved<CharacterController3D>();
+      BuildSignalsArrayOnComponentAdded<Quantum.ClimbingSurface>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.ClimbingSurface>();
       BuildSignalsArrayOnComponentAdded<Quantum.KCC>();
       BuildSignalsArrayOnComponentRemoved<Quantum.KCC>();
       BuildSignalsArrayOnComponentAdded<Quantum.KCCProcessorLink>();
@@ -1004,6 +1056,24 @@ namespace Quantum {
       Physics3D.Init(_globals->PhysicsState3D.MapStaticCollidersState.TrackedMap);
     }
     public unsafe partial struct FrameSignals {
+      public void OnCollisionPlayerHitClimbingSurface(CollisionInfo3D info, Player* player) {
+        var array = _f._ISignalOnCollisionPlayerHitClimbingSurfaceSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnCollisionPlayerHitClimbingSurface(_f, info, player);
+          }
+        }
+      }
+      public void OnCollisionPlayerExitClimbingSurface(ExitInfo3D info, Player* player) {
+        var array = _f._ISignalOnCollisionPlayerExitClimbingSurfaceSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnCollisionPlayerExitClimbingSurface(_f, info, player);
+          }
+        }
+      }
     }
   }
   public unsafe partial class Statics {
@@ -1030,6 +1100,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Button), Button.SIZE);
       typeRegistry.Register(typeof(CharacterController2D), CharacterController2D.SIZE);
       typeRegistry.Register(typeof(CharacterController3D), CharacterController3D.SIZE);
+      typeRegistry.Register(typeof(Quantum.ClimbingSurface), Quantum.ClimbingSurface.SIZE);
       typeRegistry.Register(typeof(ColorRGBA), ColorRGBA.SIZE);
       typeRegistry.Register(typeof(ComponentPrototypeRef), ComponentPrototypeRef.SIZE);
       typeRegistry.Register(typeof(ComponentTypeRef), ComponentTypeRef.SIZE);
@@ -1106,8 +1177,9 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 4)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 5)
         .AddBuiltInComponents()
+        .Add<Quantum.ClimbingSurface>(Quantum.ClimbingSurface.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.KCC>(Quantum.KCC.Serialize, null, Quantum.KCC.OnRemoved, ComponentFlags.None)
         .Add<Quantum.KCCProcessorLink>(Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.NPC>(Quantum.NPC.Serialize, null, null, ComponentFlags.None)

@@ -5,14 +5,21 @@ component Player
     FP LastDashTime;
     int tapWindow;           
     int wTapCounter;           
-    int dTapCounter;          
+    int sTapCounter;   
+    int dTapCounter;   
+    int aTapCounter;   
 
     bool isDashing;
     int dashFrameDuration;    
     int dashFrameTimer;
 
-     bool lastWPressed ;     
-     bool lastDPressed ;
+    bool lastWPressed ;     
+    bool lastDPressed ;
+    bool lastAPressed ;
+    bool lastSPressed ;
+
+    bool isClimbing;
+    FP ClimbSpeed;
     [HideInInspector]
     PlayerRef PlayerRef;
 }
