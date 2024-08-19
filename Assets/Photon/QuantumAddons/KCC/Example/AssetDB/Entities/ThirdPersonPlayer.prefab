@@ -1495,6 +1495,14 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
+      propertyPath: PhysicsBody.Drag.RawValue
+      value: 32768
+      objectReference: {fileID: 0}
+    - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
+      propertyPath: PhysicsBody.Mass.RawValue
+      value: 65536
+      objectReference: {fileID: 0}
+    - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: PhysicsCollider.IsEnabled
       value: 1
       objectReference: {fileID: 0}
@@ -1503,8 +1511,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3694612081165750301}
     - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
+      propertyPath: PhysicsBody.AngularDrag.RawValue
+      value: 32768
+      objectReference: {fileID: 0}
+    - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: PhysicsCollider.Shape3D.ShapeType
       value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
+      propertyPath: PhysicsBody.GravityScale._hasValue
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: PhysicsCollider.CallbackFlags.Value
@@ -1513,6 +1529,10 @@ PrefabInstance:
     - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: PhysicsCollider.ScaledShape3D.ShapeType
       value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
+      propertyPath: PhysicsBody.GravityScale._value.RawValue
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: PhysicsCollider.Shape3D.CapsuleHeight.RawValue
@@ -1618,7 +1638,9 @@ MonoBehaviour:
       RawValue: 0
     tapWindow: 0
     wTapCounter: 0
+    sTapCounter: 0
     dTapCounter: 0
+    aTapCounter: 0
     isDashing:
       Value: 0
     dashFrameDuration: 0
@@ -1627,9 +1649,14 @@ MonoBehaviour:
       Value: 0
     lastDPressed:
       Value: 0
+    lastAPressed:
+      Value: 0
+    lastSPressed:
+      Value: 0
     isClimbing:
       Value: 0
-    ClimbSpeed: 0
+    ClimbSpeed:
+      RawValue: 0
     PlayerRef:
       _index: 0
 --- !u!4 &4065188574126495999 stripped

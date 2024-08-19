@@ -50,8 +50,8 @@ namespace Quantum
 
 			SetDynamicVelocity(context, ref data, JumpMultiplier, DynamicGroundFriction, DynamicAirFriction);
 			SetKinematicVelocity(context, ref data, KinematicSpeed, KinematicGroundAcceleration, KinematicAirAcceleration, KinematicGroundFriction, KinematicAirFriction);
-
-			context.KCC->Data = data;
+           
+            context.KCC->Data = data;
 		}
 
 		public void AfterMoveStep(KCCContext context, KCCProcessorInfo processorInfo, KCCOverlapInfo overlapInfo)
@@ -170,7 +170,7 @@ namespace Quantum
 				}
 			}
 
-			data.DynamicVelocity = dynamicVelocity;
+            data.DynamicVelocity = dynamicVelocity;
 
 			data.JumpImpulse     = default;
 			data.ExternalImpulse = default;

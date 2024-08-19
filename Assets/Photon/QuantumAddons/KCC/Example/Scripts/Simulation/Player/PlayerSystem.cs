@@ -11,6 +11,7 @@ namespace Quantum
             public EntityRef Entity;
             public Player* Player;
             public KCC* KCC;
+            public PhysicsBody3D* PhysicsBody;
         }
 
         public override void Update(Frame frame, ref Filter filter)
@@ -24,16 +25,30 @@ namespace Quantum
 
             kcc->AddLookRotation(input->LookRotationDelta.X, input->LookRotationDelta.Y);
 
-            if (input->MoveDirection.Y > 0 && player->isClimbing)
+            if (input->MoveDirection.Y != 0 && player->isClimbing)
             {
-                StartClimbing(kcc, player);
+                StartClimbing(kcc, player, input);
+                kcc->SetActive(true);
+                filter.PhysicsBody->Enabled = true;
+            }
+            else if (input->MoveDirection.X != 0 && player->isClimbing)
+            {
+                StartClimbing(kcc, player, input);
+                kcc->SetActive(true);
+                filter.PhysicsBody->Enabled = true;
+            }
+            else
+            {
+                kcc->SetActive(false);
+                filter.PhysicsBody->Enabled = false;
             }
 
-            //// Handle regular movement if not climbing
+            // Handle regular movement if not climbing
             if (!player->isClimbing)
             {
                 HandleNormalMovement(kcc, input);
-                kcc->SetGravity(FPVector3.One * 15);
+                kcc->SetActive(true);
+                filter.PhysicsBody->Enabled = true;
             }
 
             if (input->Jump.WasPressed && kcc->IsGrounded)
@@ -58,7 +73,7 @@ namespace Quantum
                     player->wTapCounter = 1;
                 }
             }
-            
+
             // Handle dash logic for "S" key
             if (input->MoveDirection.Y < 0 && !player->lastSPressed)
             {
@@ -143,7 +158,7 @@ namespace Quantum
 
 
             if (player->wTapCounter > player->tapWindow) player->wTapCounter = 0;
-            if (player->dTapCounter > player->tapWindow) player->dTapCounter = 0; 
+            if (player->dTapCounter > player->tapWindow) player->dTapCounter = 0;
 
 
             if (player->aTapCounter > 0 && player->aTapCounter <= player->tapWindow)
@@ -167,12 +182,19 @@ namespace Quantum
             player->lastSPressed = input->MoveDirection.Y < 0;
         }
 
-        private void StartClimbing(KCC* kcc, Player* player)
+        private void StartClimbing(KCC* kcc, Player* player, Input* input)
         {
-            player->isClimbing = true;
             kcc->SetGravity(FPVector3.Zero); // Disable gravity while climbing
-            kcc->SetKinematicVelocity(FPVector3.Zero); // Clear velocity for smooth climbing
-            kcc->AddExternalImpulse(FPVector3.Up * player->ClimbSpeed); // Apply climbing force
+            kcc->SetKinematicVelocity(FPVector3.Zero);
+
+            FPVector3 climbDirection = new(FP._0, input->MoveDirection.Y * player->ClimbSpeed, FP._0);
+            kcc->AddExternalImpulse(climbDirection); // Apply climbing force
+        }
+
+        private void StopClimbing(KCC* kcc, Player* player, Input* input)
+        {
+            kcc->Data.Gravity = FPVector3.Zero;
+            kcc->Data.KinematicVelocity = FPVector3.Zero;
         }
 
         private void PerformDash(KCC* kcc, FPVector3 desiredDirection, FP dashForce)

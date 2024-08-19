@@ -8,7 +8,6 @@ namespace Quantum
             {
                 if (f.Unsafe.TryGetPointer<ClimbingSurface>(info.Other, out _))
                 {
-                    //player hit a climbing surface
                     f.Signals.OnCollisionPlayerHitClimbingSurface(info, player);
                 }
             }
@@ -21,7 +20,6 @@ namespace Quantum
             {
                 if (f.Unsafe.TryGetPointer<ClimbingSurface>(info.Other, out _))
                 {
-                    //player hit a climbing surface
                     f.Signals.OnCollisionPlayerExitClimbingSurface(info, player);
                 }
             }
