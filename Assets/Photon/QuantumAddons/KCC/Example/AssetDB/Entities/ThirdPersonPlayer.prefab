@@ -1543,6 +1543,10 @@ PrefabInstance:
       value: 22937
       objectReference: {fileID: 0}
     - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
+      propertyPath: PhysicsCollider.Shape3D.PositionOffset.X.RawValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: PhysicsCollider.Shape3D.PositionOffset.Y.RawValue
       value: 58982
       objectReference: {fileID: 0}
@@ -1655,8 +1659,7 @@ MonoBehaviour:
       Value: 0
     isClimbing:
       Value: 0
-    ClimbSpeed:
-      RawValue: 0
+    ClimbSpeed: 0
     PlayerRef:
       _index: 0
 --- !u!4 &4065188574126495999 stripped

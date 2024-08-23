@@ -13,7 +13,7 @@ namespace Quantum
 		[KCCTooltip("Custom jump multiplier.")]
 		public FP JumpMultiplier = 1;
 		[KCCTooltip("Custom gravity vector.")]
-		public FPVector3 Gravity = new FPVector3(0, -20, 0);
+		public static FPVector3 Gravity = new FPVector3(0, -20, 0);
 
 		[KCCHeader("Ground")]
 		[KCCTooltip("Maximum angle of walkable ground.")]
@@ -286,6 +286,11 @@ namespace Quantum
 			}
 
 			data.KinematicVelocity = kinematicVelocity;
+		}
+
+		public static void SetGravity(FPVector3 fPVector3)
+		{
+			Gravity = fPVector3;
 		}
 
 		private static bool IsAlmostZero(FP value, FP tolerance)

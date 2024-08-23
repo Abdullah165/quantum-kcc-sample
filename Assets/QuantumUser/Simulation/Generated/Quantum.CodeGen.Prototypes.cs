@@ -261,7 +261,8 @@ namespace Quantum.Prototypes {
     public QBoolean lastAPressed;
     public QBoolean lastSPressed;
     public QBoolean isClimbing;
-    public FP ClimbSpeed;
+    public Int32 ClimbSpeed;
+    public FPVector3 tempPosition;
     [HideInInspector()]
     public PlayerRef PlayerRef;
     partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
@@ -288,6 +289,7 @@ namespace Quantum.Prototypes {
         result.lastSPressed = this.lastSPressed;
         result.isClimbing = this.isClimbing;
         result.ClimbSpeed = this.ClimbSpeed;
+        result.tempPosition = this.tempPosition;
         result.PlayerRef = this.PlayerRef;
         MaterializeUser(frame, ref result, in context);
     }

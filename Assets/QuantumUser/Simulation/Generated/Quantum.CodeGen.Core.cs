@@ -874,7 +874,7 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Player : Quantum.IComponent {
-    public const Int32 SIZE = 88;
+    public const Int32 SIZE = 112;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(72)]
     public FP JumpForce;
@@ -882,35 +882,37 @@ namespace Quantum {
     public FP DashForce;
     [FieldOffset(80)]
     public FP LastDashTime;
-    [FieldOffset(20)]
-    public Int32 tapWindow;
     [FieldOffset(24)]
-    public Int32 wTapCounter;
-    [FieldOffset(16)]
-    public Int32 sTapCounter;
-    [FieldOffset(4)]
-    public Int32 dTapCounter;
-    [FieldOffset(0)]
-    public Int32 aTapCounter;
-    [FieldOffset(36)]
-    public QBoolean isDashing;
-    [FieldOffset(8)]
-    public Int32 dashFrameDuration;
-    [FieldOffset(12)]
-    public Int32 dashFrameTimer;
-    [FieldOffset(52)]
-    public QBoolean lastWPressed;
-    [FieldOffset(44)]
-    public QBoolean lastDPressed;
-    [FieldOffset(40)]
-    public QBoolean lastAPressed;
-    [FieldOffset(48)]
-    public QBoolean lastSPressed;
-    [FieldOffset(32)]
-    public QBoolean isClimbing;
-    [FieldOffset(56)]
-    public FP ClimbSpeed;
+    public Int32 tapWindow;
     [FieldOffset(28)]
+    public Int32 wTapCounter;
+    [FieldOffset(20)]
+    public Int32 sTapCounter;
+    [FieldOffset(8)]
+    public Int32 dTapCounter;
+    [FieldOffset(4)]
+    public Int32 aTapCounter;
+    [FieldOffset(40)]
+    public QBoolean isDashing;
+    [FieldOffset(12)]
+    public Int32 dashFrameDuration;
+    [FieldOffset(16)]
+    public Int32 dashFrameTimer;
+    [FieldOffset(56)]
+    public QBoolean lastWPressed;
+    [FieldOffset(48)]
+    public QBoolean lastDPressed;
+    [FieldOffset(44)]
+    public QBoolean lastAPressed;
+    [FieldOffset(52)]
+    public QBoolean lastSPressed;
+    [FieldOffset(36)]
+    public QBoolean isClimbing;
+    [FieldOffset(0)]
+    public Int32 ClimbSpeed;
+    [FieldOffset(88)]
+    public FPVector3 tempPosition;
+    [FieldOffset(32)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
     public override Int32 GetHashCode() {
@@ -933,12 +935,14 @@ namespace Quantum {
         hash = hash * 31 + lastSPressed.GetHashCode();
         hash = hash * 31 + isClimbing.GetHashCode();
         hash = hash * 31 + ClimbSpeed.GetHashCode();
+        hash = hash * 31 + tempPosition.GetHashCode();
         hash = hash * 31 + PlayerRef.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Player*)ptr;
+        serializer.Stream.Serialize(&p->ClimbSpeed);
         serializer.Stream.Serialize(&p->aTapCounter);
         serializer.Stream.Serialize(&p->dTapCounter);
         serializer.Stream.Serialize(&p->dashFrameDuration);
@@ -953,10 +957,10 @@ namespace Quantum {
         QBoolean.Serialize(&p->lastDPressed, serializer);
         QBoolean.Serialize(&p->lastSPressed, serializer);
         QBoolean.Serialize(&p->lastWPressed, serializer);
-        FP.Serialize(&p->ClimbSpeed, serializer);
         FP.Serialize(&p->DashForce, serializer);
         FP.Serialize(&p->JumpForce, serializer);
         FP.Serialize(&p->LastDashTime, serializer);
+        FPVector3.Serialize(&p->tempPosition, serializer);
     }
   }
   public unsafe partial interface ISignalOnCollisionPlayerHitClimbingSurface : ISignal {

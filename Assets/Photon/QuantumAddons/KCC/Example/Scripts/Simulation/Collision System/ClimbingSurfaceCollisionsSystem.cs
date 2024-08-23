@@ -11,7 +11,6 @@ namespace Quantum
                     f.Signals.OnCollisionPlayerHitClimbingSurface(info, player);
                 }
             }
-
         }
 
         public void OnCollisionExit3D(Frame f, ExitInfo3D info)

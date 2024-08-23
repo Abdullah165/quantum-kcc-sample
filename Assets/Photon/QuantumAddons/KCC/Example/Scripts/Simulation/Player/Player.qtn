@@ -19,7 +19,8 @@ component Player
     bool lastSPressed ;
 
     bool isClimbing;
-    FP ClimbSpeed;
+    int ClimbSpeed;
+    FPVector3 tempPosition;
     [HideInInspector]
     PlayerRef PlayerRef;
 }

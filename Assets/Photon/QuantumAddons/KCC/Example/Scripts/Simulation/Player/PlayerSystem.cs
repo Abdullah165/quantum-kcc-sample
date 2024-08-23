@@ -1,17 +1,20 @@
 namespace Quantum
 {
     using Photon.Deterministic;
+    using System.Runtime.InteropServices;
     using UnityEditor.UIElements;
     using UnityEngine.Scripting;
     [Preserve]
     public unsafe class PlayerSystem : SystemMainThreadFilter<PlayerSystem.Filter>, ISignalOnComponentAdded<Player>, ISignalOnCollisionPlayerHitClimbingSurface, ISignalOnCollisionPlayerExitClimbingSurface
     {
+      
         public struct Filter
         {
             public EntityRef Entity;
             public Player* Player;
             public KCC* KCC;
             public PhysicsBody3D* PhysicsBody;
+            public Transform3D* Transform;
         }
 
         public override void Update(Frame frame, ref Filter filter)
@@ -25,31 +28,16 @@ namespace Quantum
 
             kcc->AddLookRotation(input->LookRotationDelta.X, input->LookRotationDelta.Y);
 
-            if (input->MoveDirection.Y != 0 && player->isClimbing)
+            if (player->isClimbing)
             {
-                StartClimbing(kcc, player, input);
-                kcc->SetActive(true);
-                filter.PhysicsBody->Enabled = true;
-            }
-            else if (input->MoveDirection.X != 0 && player->isClimbing)
-            {
-                StartClimbing(kcc, player, input);
-                kcc->SetActive(true);
-                filter.PhysicsBody->Enabled = true;
+                HandleClimbing(kcc, frame, ref filter, player, input);
             }
             else
             {
-                kcc->SetActive(false);
-                filter.PhysicsBody->Enabled = false;
+                EnvironmentProcessor.SetGravity(new FPVector3(0, -20, 0));
+                HandleNormalMovement(kcc, input);
             }
 
-            // Handle regular movement if not climbing
-            if (!player->isClimbing)
-            {
-                HandleNormalMovement(kcc, input);
-                kcc->SetActive(true);
-                filter.PhysicsBody->Enabled = true;
-            }
 
             if (input->Jump.WasPressed && kcc->IsGrounded)
             {
@@ -182,19 +170,26 @@ namespace Quantum
             player->lastSPressed = input->MoveDirection.Y < 0;
         }
 
-        private void StartClimbing(KCC* kcc, Player* player, Input* input)
+        private void HandleClimbing(KCC* kcc, Frame frame, ref Filter filter, Player* player, Input* input)
         {
-            kcc->SetGravity(FPVector3.Zero); // Disable gravity while climbing
+            EnvironmentProcessor.SetGravity(FPVector3.Zero);
             kcc->SetKinematicVelocity(FPVector3.Zero);
 
-            FPVector3 climbDirection = new(FP._0, input->MoveDirection.Y * player->ClimbSpeed, FP._0);
-            kcc->AddExternalImpulse(climbDirection); // Apply climbing force
-        }
-
-        private void StopClimbing(KCC* kcc, Player* player, Input* input)
-        {
-            kcc->Data.Gravity = FPVector3.Zero;
-            kcc->Data.KinematicVelocity = FPVector3.Zero;
+            if (input->MoveDirection.Y != 0)
+            {
+                filter.Transform->Position += FPVector3.Up * input->MoveDirection.Y * frame.DeltaTime * player->ClimbSpeed;
+                player->tempPosition = filter.Transform->Position;
+            }
+            else if (input->MoveDirection.X != 0)
+            {
+                filter.Transform->Position.Y = player->tempPosition.Y;
+                filter.Transform->Position += FPVector3.Forward * input->MoveDirection.X * frame.DeltaTime * player->ClimbSpeed;
+                player->tempPosition = filter.Transform->Position;
+            }
+            else
+            {
+                filter.Transform->Position = player->tempPosition;
+            }
         }
 
         private void PerformDash(KCC* kcc, FPVector3 desiredDirection, FP dashForce)
@@ -227,8 +222,10 @@ namespace Quantum
             player->lastAPressed = false;
             player->lastSPressed = false;
 
-            player->ClimbSpeed = FP._0_50;
+            player->ClimbSpeed = 20;
             player->isClimbing = false;
+
+            player->tempPosition = FPVector3.Zero;
         }
 
         public void OnCollisionPlayerHitClimbingSurface(Frame f, CollisionInfo3D info, Player* player)
