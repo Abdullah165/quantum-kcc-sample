@@ -845,36 +845,41 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct NPC : Quantum.IComponent {
-    public const Int32 SIZE = 56;
+    public const Int32 SIZE = 72;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(0)]
     [HideInInspector()]
     public FP CheckTime;
-    [FieldOffset(8)]
+    [FieldOffset(24)]
     [HideInInspector()]
     public FPVector3 CheckPosition;
-    [FieldOffset(32)]
+    [FieldOffset(48)]
     [HideInInspector()]
     public FPVector3 TargetPosition;
+    [FieldOffset(8)]
+    [HideInInspector()]
+    public FPVector2 Movement;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 7993;
         hash = hash * 31 + CheckTime.GetHashCode();
         hash = hash * 31 + CheckPosition.GetHashCode();
         hash = hash * 31 + TargetPosition.GetHashCode();
+        hash = hash * 31 + Movement.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (NPC*)ptr;
         FP.Serialize(&p->CheckTime, serializer);
+        FPVector2.Serialize(&p->Movement, serializer);
         FPVector3.Serialize(&p->CheckPosition, serializer);
         FPVector3.Serialize(&p->TargetPosition, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Player : Quantum.IComponent {
-    public const Int32 SIZE = 112;
+    public const Int32 SIZE = 136;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(72)]
     public FP JumpForce;
@@ -910,8 +915,10 @@ namespace Quantum {
     public QBoolean isClimbing;
     [FieldOffset(0)]
     public Int32 ClimbSpeed;
-    [FieldOffset(88)]
+    [FieldOffset(112)]
     public FPVector3 tempPosition;
+    [FieldOffset(88)]
+    public FPVector3 currentPosition;
     [FieldOffset(32)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
@@ -936,6 +943,7 @@ namespace Quantum {
         hash = hash * 31 + isClimbing.GetHashCode();
         hash = hash * 31 + ClimbSpeed.GetHashCode();
         hash = hash * 31 + tempPosition.GetHashCode();
+        hash = hash * 31 + currentPosition.GetHashCode();
         hash = hash * 31 + PlayerRef.GetHashCode();
         return hash;
       }
@@ -960,6 +968,7 @@ namespace Quantum {
         FP.Serialize(&p->DashForce, serializer);
         FP.Serialize(&p->JumpForce, serializer);
         FP.Serialize(&p->LastDashTime, serializer);
+        FPVector3.Serialize(&p->currentPosition, serializer);
         FPVector3.Serialize(&p->tempPosition, serializer);
     }
   }
@@ -989,12 +998,20 @@ namespace Quantum {
       _ISignalOnCollisionPlayerExitClimbingSurfaceSystems = BuildSignalsArray<ISignalOnCollisionPlayerExitClimbingSurface>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
+      BuildSignalsArrayOnComponentAdded<AIBlackboardComponent>();
+      BuildSignalsArrayOnComponentRemoved<AIBlackboardComponent>();
+      BuildSignalsArrayOnComponentAdded<BTAgent>();
+      BuildSignalsArrayOnComponentRemoved<BTAgent>();
+      BuildSignalsArrayOnComponentAdded<BotSDKGlobals>();
+      BuildSignalsArrayOnComponentRemoved<BotSDKGlobals>();
       BuildSignalsArrayOnComponentAdded<CharacterController2D>();
       BuildSignalsArrayOnComponentRemoved<CharacterController2D>();
       BuildSignalsArrayOnComponentAdded<CharacterController3D>();
       BuildSignalsArrayOnComponentRemoved<CharacterController3D>();
       BuildSignalsArrayOnComponentAdded<Quantum.ClimbingSurface>();
       BuildSignalsArrayOnComponentRemoved<Quantum.ClimbingSurface>();
+      BuildSignalsArrayOnComponentAdded<HFSMAgent>();
+      BuildSignalsArrayOnComponentRemoved<HFSMAgent>();
       BuildSignalsArrayOnComponentAdded<Quantum.KCC>();
       BuildSignalsArrayOnComponentRemoved<Quantum.KCC>();
       BuildSignalsArrayOnComponentAdded<Quantum.KCCProcessorLink>();
@@ -1035,6 +1052,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<Transform2DVertical>();
       BuildSignalsArrayOnComponentAdded<Transform3D>();
       BuildSignalsArrayOnComponentRemoved<Transform3D>();
+      BuildSignalsArrayOnComponentAdded<UTAgent>();
+      BuildSignalsArrayOnComponentRemoved<UTAgent>();
       BuildSignalsArrayOnComponentAdded<View>();
       BuildSignalsArrayOnComponentRemoved<View>();
     }
@@ -1092,8 +1111,10 @@ namespace Quantum {
       SerializeInput = Quantum.Input.Serialize;
     }
     static partial void RegisterSimulationTypesGen(TypeRegistry typeRegistry) {
+      typeRegistry.Register(typeof(AIBlackboardComponent), AIBlackboardComponent.SIZE);
       typeRegistry.Register(typeof(AssetGuid), AssetGuid.SIZE);
       typeRegistry.Register(typeof(AssetRef), AssetRef.SIZE);
+      typeRegistry.Register(typeof(BTAgent), BTAgent.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet1024), Quantum.BitSet1024.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet128), Quantum.BitSet128.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet2048), Quantum.BitSet2048.SIZE);
@@ -1101,6 +1122,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.BitSet4096), Quantum.BitSet4096.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet512), Quantum.BitSet512.SIZE);
       typeRegistry.Register(typeof(Quantum.BitSet6), Quantum.BitSet6.SIZE);
+      typeRegistry.Register(typeof(BotSDKGlobals), BotSDKGlobals.SIZE);
       typeRegistry.Register(typeof(Button), Button.SIZE);
       typeRegistry.Register(typeof(CharacterController2D), CharacterController2D.SIZE);
       typeRegistry.Register(typeof(CharacterController3D), CharacterController3D.SIZE);
@@ -1126,6 +1148,8 @@ namespace Quantum {
       typeRegistry.Register(typeof(FPVector3), FPVector3.SIZE);
       typeRegistry.Register(typeof(FrameMetaData), FrameMetaData.SIZE);
       typeRegistry.Register(typeof(FrameTimer), FrameTimer.SIZE);
+      typeRegistry.Register(typeof(HFSMAgent), HFSMAgent.SIZE);
+      typeRegistry.Register(typeof(HFSMData), HFSMData.SIZE);
       typeRegistry.Register(typeof(HingeJoint), HingeJoint.SIZE);
       typeRegistry.Register(typeof(HingeJoint3D), HingeJoint3D.SIZE);
       typeRegistry.Register(typeof(Hit), Hit.SIZE);
@@ -1177,17 +1201,23 @@ namespace Quantum {
       typeRegistry.Register(typeof(Transform2D), Transform2D.SIZE);
       typeRegistry.Register(typeof(Transform2DVertical), Transform2DVertical.SIZE);
       typeRegistry.Register(typeof(Transform3D), Transform3D.SIZE);
+      typeRegistry.Register(typeof(UTAgent), UTAgent.SIZE);
       typeRegistry.Register(typeof(View), View.SIZE);
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 5)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 10)
         .AddBuiltInComponents()
+        .Add<AIBlackboardComponent>(AIBlackboardComponent.Serialize, AIBlackboardComponent.OnAdded, AIBlackboardComponent.OnRemoved, ComponentFlags.None)
+        .Add<BTAgent>(BTAgent.Serialize, BTAgent.OnAdded, BTAgent.OnRemoved, ComponentFlags.None)
+        .Add<BotSDKGlobals>(BotSDKGlobals.Serialize, BotSDKGlobals.OnAdded, BotSDKGlobals.OnRemoved, ComponentFlags.Singleton)
         .Add<Quantum.ClimbingSurface>(Quantum.ClimbingSurface.Serialize, null, null, ComponentFlags.None)
+        .Add<HFSMAgent>(HFSMAgent.Serialize, HFSMAgent.OnAdded, HFSMAgent.OnRemoved, ComponentFlags.None)
         .Add<Quantum.KCC>(Quantum.KCC.Serialize, null, Quantum.KCC.OnRemoved, ComponentFlags.None)
         .Add<Quantum.KCCProcessorLink>(Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.NPC>(Quantum.NPC.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Player>(Quantum.Player.Serialize, null, null, ComponentFlags.None)
+        .Add<UTAgent>(UTAgent.Serialize, UTAgent.OnAdded, UTAgent.OnRemoved, ComponentFlags.None)
         .Finish();
     }
     [Preserve()]

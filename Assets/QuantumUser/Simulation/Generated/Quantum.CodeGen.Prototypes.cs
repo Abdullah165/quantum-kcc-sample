@@ -229,6 +229,8 @@ namespace Quantum.Prototypes {
     public FPVector3 CheckPosition;
     [HideInInspector()]
     public FPVector3 TargetPosition;
+    [HideInInspector()]
+    public FPVector2 Movement;
     partial void MaterializeUser(Frame frame, ref Quantum.NPC result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.NPC component = default;
@@ -239,6 +241,7 @@ namespace Quantum.Prototypes {
         result.CheckTime = this.CheckTime;
         result.CheckPosition = this.CheckPosition;
         result.TargetPosition = this.TargetPosition;
+        result.Movement = this.Movement;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -263,6 +266,7 @@ namespace Quantum.Prototypes {
     public QBoolean isClimbing;
     public Int32 ClimbSpeed;
     public FPVector3 tempPosition;
+    public FPVector3 currentPosition;
     [HideInInspector()]
     public PlayerRef PlayerRef;
     partial void MaterializeUser(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context);
@@ -290,6 +294,7 @@ namespace Quantum.Prototypes {
         result.isClimbing = this.isClimbing;
         result.ClimbSpeed = this.ClimbSpeed;
         result.tempPosition = this.tempPosition;
+        result.currentPosition = this.currentPosition;
         result.PlayerRef = this.PlayerRef;
         MaterializeUser(frame, ref result, in context);
     }

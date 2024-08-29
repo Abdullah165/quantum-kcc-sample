@@ -2333,6 +2333,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3006193233243328122, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: Prototype.PlayerEntityRef
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4065188574126495999, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
       propertyPath: m_RootOrder
       value: 0

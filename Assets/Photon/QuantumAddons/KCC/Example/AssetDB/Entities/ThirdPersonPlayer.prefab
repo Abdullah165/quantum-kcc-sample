@@ -1660,6 +1660,13 @@ MonoBehaviour:
     isClimbing:
       Value: 0
     ClimbSpeed: 0
+    tempPosition:
+      X:
+        RawValue: 0
+      Y:
+        RawValue: 0
+      Z:
+        RawValue: 0
     PlayerRef:
       _index: 0
 --- !u!4 &4065188574126495999 stripped

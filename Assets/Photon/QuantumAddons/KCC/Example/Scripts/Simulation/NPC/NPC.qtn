@@ -6,4 +6,6 @@ component NPC
     FPVector3 CheckPosition;
     [HideInInspector]
     FPVector3 TargetPosition;
+    [HideInInspector]
+    FPVector2 Movement;
 }

@@ -130902,30 +130902,35 @@ MonoBehaviour:
     - rid: 4628799547546533890
     - rid: 4628799547546533891
     - rid: 4628799547546533892
+    - rid: 4628799547546533893
   - Components:
     - rid: 6256329081688686592
     - rid: 6256329081688686593
     - rid: 6256329081688686594
     - rid: 6256329081688686595
     - rid: 6256329081688686596
+    - rid: 6256329081688686597
   - Components:
     - rid: 8101156810372677632
     - rid: 8101156810372677633
     - rid: 8101156810372677634
     - rid: 8101156810372677635
     - rid: 8101156810372677636
+    - rid: 8101156810372677637
   - Components:
     - rid: 5462902273254359040
     - rid: 5462902273254359041
     - rid: 5462902273254359042
     - rid: 5462902273254359043
     - rid: 5462902273254359044
+    - rid: 5462902273254359045
   - Components:
     - rid: 640565151388401664
     - rid: 640565151388401665
     - rid: 640565151388401666
     - rid: 640565151388401667
     - rid: 640565151388401668
+    - rid: 640565151388401669
   - Components:
     - rid: 3447886212063297536
     - rid: 3447886212063297537
@@ -131131,12 +131136,24 @@ MonoBehaviour:
         CallbackFlags:
           Value: 0
     - rid: 640565151388401667
+      type: {class: HFSMAgentPrototype, ns: Quantum.Prototypes, asm: Quantum.BotSDK.Core}
+      data:
+        Data:
+          Root:
+            Id:
+              Value: 45091554860362388
+          UsesStateHistory:
+            Value: 0
+        Config:
+          Id:
+            Value: 0
+    - rid: 640565151388401668
       type: {class: KCCPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Settings:
           Id:
             Value: 380834413363505741
-    - rid: 640565151388401668
+    - rid: 640565151388401669
       type: {class: NPCPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         CheckTime:
@@ -131154,6 +131171,11 @@ MonoBehaviour:
           Y:
             RawValue: 0
           Z:
+            RawValue: 0
+        Movement:
+          X:
+            RawValue: 0
+          Y:
             RawValue: 0
     - rid: 849295390833377280
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -131938,12 +131960,24 @@ MonoBehaviour:
         CallbackFlags:
           Value: 0
     - rid: 4628799547546533891
+      type: {class: HFSMAgentPrototype, ns: Quantum.Prototypes, asm: Quantum.BotSDK.Core}
+      data:
+        Data:
+          Root:
+            Id:
+              Value: 45091554860362388
+          UsesStateHistory:
+            Value: 0
+        Config:
+          Id:
+            Value: 0
+    - rid: 4628799547546533892
       type: {class: KCCPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Settings:
           Id:
             Value: 380834413363505741
-    - rid: 4628799547546533892
+    - rid: 4628799547546533893
       type: {class: NPCPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         CheckTime:
@@ -131961,6 +131995,11 @@ MonoBehaviour:
           Y:
             RawValue: 0
           Z:
+            RawValue: 0
+        Movement:
+          X:
+            RawValue: 0
+          Y:
             RawValue: 0
     - rid: 4929231176314388480
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -132115,12 +132154,24 @@ MonoBehaviour:
         CallbackFlags:
           Value: 0
     - rid: 5462902273254359043
+      type: {class: HFSMAgentPrototype, ns: Quantum.Prototypes, asm: Quantum.BotSDK.Core}
+      data:
+        Data:
+          Root:
+            Id:
+              Value: 45091554860362388
+          UsesStateHistory:
+            Value: 0
+        Config:
+          Id:
+            Value: 0
+    - rid: 5462902273254359044
       type: {class: KCCPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Settings:
           Id:
             Value: 380834413363505741
-    - rid: 5462902273254359044
+    - rid: 5462902273254359045
       type: {class: NPCPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         CheckTime:
@@ -132138,6 +132189,11 @@ MonoBehaviour:
           Y:
             RawValue: 0
           Z:
+            RawValue: 0
+        Movement:
+          X:
+            RawValue: 0
+          Y:
             RawValue: 0
     - rid: 5513216178744459264
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -132652,12 +132708,24 @@ MonoBehaviour:
         CallbackFlags:
           Value: 0
     - rid: 6256329081688686595
+      type: {class: HFSMAgentPrototype, ns: Quantum.Prototypes, asm: Quantum.BotSDK.Core}
+      data:
+        Data:
+          Root:
+            Id:
+              Value: 45091554860362388
+          UsesStateHistory:
+            Value: 0
+        Config:
+          Id:
+            Value: 0
+    - rid: 6256329081688686596
       type: {class: KCCPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Settings:
           Id:
             Value: 380834413363505741
-    - rid: 6256329081688686596
+    - rid: 6256329081688686597
       type: {class: NPCPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         CheckTime:
@@ -132675,6 +132743,11 @@ MonoBehaviour:
           Y:
             RawValue: 0
           Z:
+            RawValue: 0
+        Movement:
+          X:
+            RawValue: 0
+          Y:
             RawValue: 0
     - rid: 6616682827154980864
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
@@ -133369,12 +133442,24 @@ MonoBehaviour:
         CallbackFlags:
           Value: 0
     - rid: 8101156810372677635
+      type: {class: HFSMAgentPrototype, ns: Quantum.Prototypes, asm: Quantum.BotSDK.Core}
+      data:
+        Data:
+          Root:
+            Id:
+              Value: 45091554860362388
+          UsesStateHistory:
+            Value: 0
+        Config:
+          Id:
+            Value: 0
+    - rid: 8101156810372677636
       type: {class: KCCPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         Settings:
           Id:
             Value: 380834413363505741
-    - rid: 8101156810372677636
+    - rid: 8101156810372677637
       type: {class: NPCPrototype, ns: Quantum.Prototypes, asm: Quantum.Simulation}
       data:
         CheckTime:
@@ -133392,6 +133477,11 @@ MonoBehaviour:
           Y:
             RawValue: 0
           Z:
+            RawValue: 0
+        Movement:
+          X:
+            RawValue: 0
+          Y:
             RawValue: 0
     - rid: 8188145860362633216
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}

@@ -21,6 +21,7 @@ component Player
     bool isClimbing;
     int ClimbSpeed;
     FPVector3 tempPosition;
+    FPVector3 currentPosition;
     [HideInInspector]
     PlayerRef PlayerRef;
 }

@@ -20,13 +20,6 @@ MonoBehaviour:
     RawValue: 524288
   JumpMultiplier:
     RawValue: 65536
-  Gravity:
-    X:
-      RawValue: 0
-    Y:
-      RawValue: 0
-    Z:
-      RawValue: 0
   MaxGroundAngle:
     RawValue: 3932160
   DynamicGroundFriction:

@@ -26,6 +26,8 @@ namespace Quantum
             KCC* kcc = filter.KCC;
             Input* input = frame.GetPlayerInput(player->PlayerRef);
 
+            player->currentPosition = filter.Transform->Position; 
+
             kcc->AddLookRotation(input->LookRotationDelta.X, input->LookRotationDelta.Y);
 
             if (player->isClimbing)
