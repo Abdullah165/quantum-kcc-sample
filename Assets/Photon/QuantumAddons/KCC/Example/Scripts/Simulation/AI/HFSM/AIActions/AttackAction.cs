@@ -7,7 +7,6 @@ namespace Quantum
     public unsafe partial class AttackAction : AIAction
     {
         private FP _attackRange = 20;
-        private FP _fireInterval = FP._0_99;
         private FP TTL = 1;
 
         public override unsafe void Execute(Frame frame, EntityRef e, ref AIContext aiContext)
