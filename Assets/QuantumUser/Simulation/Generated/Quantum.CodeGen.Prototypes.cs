@@ -230,7 +230,13 @@ namespace Quantum.Prototypes {
     [HideInInspector()]
     public FPVector3 TargetPosition;
     [HideInInspector()]
-    public FPVector2 Movement;
+    public QBoolean IsPlayerClose;
+    [HideInInspector()]
+    public QBoolean IsPlayerAway;
+    [HideInInspector()]
+    public FP FireInterval;
+    public AssetRef<EntityPrototype> Bullet;
+    public Transform3D SpawnPoint;
     partial void MaterializeUser(Frame frame, ref Quantum.NPC result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
         Quantum.NPC component = default;
@@ -241,7 +247,11 @@ namespace Quantum.Prototypes {
         result.CheckTime = this.CheckTime;
         result.CheckPosition = this.CheckPosition;
         result.TargetPosition = this.TargetPosition;
-        result.Movement = this.Movement;
+        result.IsPlayerClose = this.IsPlayerClose;
+        result.IsPlayerAway = this.IsPlayerAway;
+        result.FireInterval = this.FireInterval;
+        result.Bullet = this.Bullet;
+        result.SpawnPoint = this.SpawnPoint;
         MaterializeUser(frame, ref result, in context);
     }
   }
@@ -296,6 +306,21 @@ namespace Quantum.Prototypes {
         result.tempPosition = this.tempPosition;
         result.currentPosition = this.currentPosition;
         result.PlayerRef = this.PlayerRef;
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.PlayerTag))]
+  public unsafe partial class PlayerTagPrototype : ComponentPrototype<Quantum.PlayerTag> {
+    [HideInInspector()]
+    public Int32 _empty_prototype_dummy_field_;
+    partial void MaterializeUser(Frame frame, ref Quantum.PlayerTag result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.PlayerTag component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.PlayerTag result, in PrototypeMaterializationContext context = default) {
         MaterializeUser(frame, ref result, in context);
     }
   }

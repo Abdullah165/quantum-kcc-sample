@@ -845,36 +845,54 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct NPC : Quantum.IComponent {
-    public const Int32 SIZE = 72;
+    public const Int32 SIZE = 144;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(0)]
+    [FieldOffset(16)]
     [HideInInspector()]
     public FP CheckTime;
-    [FieldOffset(24)]
+    [FieldOffset(32)]
     [HideInInspector()]
     public FPVector3 CheckPosition;
-    [FieldOffset(48)]
+    [FieldOffset(56)]
     [HideInInspector()]
     public FPVector3 TargetPosition;
-    [FieldOffset(8)]
+    [FieldOffset(4)]
     [HideInInspector()]
-    public FPVector2 Movement;
+    public QBoolean IsPlayerClose;
+    [FieldOffset(0)]
+    [HideInInspector()]
+    public QBoolean IsPlayerAway;
+    [FieldOffset(24)]
+    [HideInInspector()]
+    public FP FireInterval;
+    [FieldOffset(8)]
+    public AssetRef<EntityPrototype> Bullet;
+    [FieldOffset(80)]
+    public Transform3D SpawnPoint;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 7993;
         hash = hash * 31 + CheckTime.GetHashCode();
         hash = hash * 31 + CheckPosition.GetHashCode();
         hash = hash * 31 + TargetPosition.GetHashCode();
-        hash = hash * 31 + Movement.GetHashCode();
+        hash = hash * 31 + IsPlayerClose.GetHashCode();
+        hash = hash * 31 + IsPlayerAway.GetHashCode();
+        hash = hash * 31 + FireInterval.GetHashCode();
+        hash = hash * 31 + Bullet.GetHashCode();
+        hash = hash * 31 + SpawnPoint.GetHashCode();
         return hash;
       }
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (NPC*)ptr;
+        QBoolean.Serialize(&p->IsPlayerAway, serializer);
+        QBoolean.Serialize(&p->IsPlayerClose, serializer);
+        AssetRef.Serialize(&p->Bullet, serializer);
         FP.Serialize(&p->CheckTime, serializer);
-        FPVector2.Serialize(&p->Movement, serializer);
+        FP.Serialize(&p->FireInterval, serializer);
         FPVector3.Serialize(&p->CheckPosition, serializer);
         FPVector3.Serialize(&p->TargetPosition, serializer);
+        Transform3D.Serialize(&p->SpawnPoint, serializer);
     }
   }
   [StructLayout(LayoutKind.Explicit)]
@@ -972,6 +990,22 @@ namespace Quantum {
         FPVector3.Serialize(&p->tempPosition, serializer);
     }
   }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct PlayerTag : Quantum.IComponent {
+    public const Int32 SIZE = 4;
+    public const Int32 ALIGNMENT = 4;
+    [FieldOffset(0)]
+    private fixed Byte _alignment_padding_[4];
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 7877;
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (PlayerTag*)ptr;
+    }
+  }
   public unsafe partial interface ISignalOnCollisionPlayerHitClimbingSurface : ISignal {
     void OnCollisionPlayerHitClimbingSurface(Frame f, CollisionInfo3D info, Player* player);
   }
@@ -1046,6 +1080,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<PhysicsJoints3D>();
       BuildSignalsArrayOnComponentAdded<Quantum.Player>();
       BuildSignalsArrayOnComponentRemoved<Quantum.Player>();
+      BuildSignalsArrayOnComponentAdded<Quantum.PlayerTag>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.PlayerTag>();
       BuildSignalsArrayOnComponentAdded<Transform2D>();
       BuildSignalsArrayOnComponentRemoved<Transform2D>();
       BuildSignalsArrayOnComponentAdded<Transform2DVertical>();
@@ -1190,6 +1226,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(PhysicsSceneSettings), PhysicsSceneSettings.SIZE);
       typeRegistry.Register(typeof(Quantum.Player), Quantum.Player.SIZE);
       typeRegistry.Register(typeof(PlayerRef), PlayerRef.SIZE);
+      typeRegistry.Register(typeof(Quantum.PlayerTag), Quantum.PlayerTag.SIZE);
       typeRegistry.Register(typeof(Ptr), Ptr.SIZE);
       typeRegistry.Register(typeof(QBoolean), QBoolean.SIZE);
       typeRegistry.Register(typeof(Quantum.Ptr), Quantum.Ptr.SIZE);
@@ -1206,7 +1243,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 10)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 11)
         .AddBuiltInComponents()
         .Add<AIBlackboardComponent>(AIBlackboardComponent.Serialize, AIBlackboardComponent.OnAdded, AIBlackboardComponent.OnRemoved, ComponentFlags.None)
         .Add<BTAgent>(BTAgent.Serialize, BTAgent.OnAdded, BTAgent.OnRemoved, ComponentFlags.None)
@@ -1217,6 +1254,7 @@ namespace Quantum {
         .Add<Quantum.KCCProcessorLink>(Quantum.KCCProcessorLink.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.NPC>(Quantum.NPC.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Player>(Quantum.Player.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.PlayerTag>(Quantum.PlayerTag.Serialize, null, null, ComponentFlags.None)
         .Add<UTAgent>(UTAgent.Serialize, UTAgent.OnAdded, UTAgent.OnRemoved, ComponentFlags.None)
         .Finish();
     }

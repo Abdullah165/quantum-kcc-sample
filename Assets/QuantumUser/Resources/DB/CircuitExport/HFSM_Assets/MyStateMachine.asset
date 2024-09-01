@@ -1,6 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4667758404473185704
+--- !u!114 &-8041283195425006287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1a2e12929a829b4d8c91b0ef8350215, type: 3}
+  m_Name: CheckPlayerDistanceDecision_jU748yPJj0q7q_Z
+  m_EditorClassIdentifier: 
+  Identifier:
+    Path: QuantumUser/Resources/DB/CircuitExport/HFSM_Assets/MyStateMachine|CheckPlayerDistanceDecision_jU748yPJj0q7q_Z
+    Guid:
+      Value: 2590210487191782284
+  Label: 
+--- !u!114 &-3781471551117237867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1a2e12929a829b4d8c91b0ef8350215, type: 3}
+  m_Name: CheckPlayerDistanceDecision_v3iQNGuvVkG8Nzv
+  m_EditorClassIdentifier: 
+  Identifier:
+    Path: QuantumUser/Resources/DB/CircuitExport/HFSM_Assets/MyStateMachine|CheckPlayerDistanceDecision_v3iQNGuvVkG8Nzv
+    Guid:
+      Value: 2473983899669278872
+  Label: 
+--- !u!114 &-2723891335920429298
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10,26 +44,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1943870150, guid: 19b3f061e0d562b4a97261f0aa32250f, type: 3}
-  m_Name: State_Patrol_qVS8L49ITEqpbf9
+  m_Name: State_Attack_X9oy6gOqRk-6GK0
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/DB/CircuitExport/HFSM_Assets/MyStateMachine|State_Patrol_qVS8L49ITEqpbf9
+    Path: QuantumUser/Resources/DB/CircuitExport/HFSM_Assets/MyStateMachine|State_Attack_X9oy6gOqRk-6GK0
     Guid:
-      Value: 1433454322090588475
-  Label: Patrol
+      Value: 2428911286144477165
+  Label: Attack
   Index: 0
-  OnUpdateLinks: []
+  OnUpdateLinks:
+  - Id:
+      Value: 1629522953643244582
   OnEnterLinks: []
   OnExitLinks: []
   Transitions:
-  - Id: b49712a4-e00e-459b-8f58-037c1a6826ee
-    EventKey: 1
+  - Id: 2a365e65-d222-49c6-bb6e-815237dc42ce
+    EventKey: 0
     DecisionLink:
       Id:
-        Value: 0
+        Value: 2473983899669278872
     StateLink:
       Id:
-        Value: 3368105153427845358
+        Value: 3672737273367096284
     TransitionSetLink:
       Id:
         Value: 0
@@ -53,16 +89,18 @@ MonoBehaviour:
   Identifier:
     Path: QuantumUser/Resources/DB/CircuitExport/HFSM_Assets/MyStateMachine
     Guid:
-      Value: 45091554860362388
+      Value: 3118288942152034677
   Label: 
   StatesLinks:
   - Id:
-      Value: 1433454322090588475
+      Value: 4576993543762475106
   - Id:
-      Value: 3368105153427845358
+      Value: 2428911286144477165
+  - Id:
+      Value: 3672737273367096284
   EventsNames:
   - Attack
---- !u!114 &6911566925069666153
+--- !u!114 &5107719036462142769
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,26 +110,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 1943870150, guid: 19b3f061e0d562b4a97261f0aa32250f, type: 3}
-  m_Name: State_Attack_441-sWo06UKP2If
+  m_Name: State_Idle_-epGfOqqvkqnTAY
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/DB/CircuitExport/HFSM_Assets/MyStateMachine|State_Attack_441-sWo06UKP2If
+    Path: QuantumUser/Resources/DB/CircuitExport/HFSM_Assets/MyStateMachine|State_Idle_-epGfOqqvkqnTAY
     Guid:
-      Value: 3368105153427845358
-  Label: Attack
+      Value: 4576993543762475106
+  Label: Idle
   Index: 1
   OnUpdateLinks: []
   OnEnterLinks: []
   OnExitLinks: []
   Transitions:
-  - Id: f777a232-5492-4f1a-8557-c3f538c2165b
+  - Id: c0430fe9-4f55-4dc7-94ed-dc7f332c15ee
     EventKey: 0
     DecisionLink:
       Id:
-        Value: 2660456611903369547
+        Value: 2590210487191782284
     StateLink:
       Id:
-        Value: 1433454322090588475
+        Value: 3672737273367096284
     TransitionSetLink:
       Id:
         Value: 0
@@ -100,7 +138,7 @@ MonoBehaviour:
     Id:
       Value: 0
   Level: 0
---- !u!114 &7540808819119364779
+--- !u!114 &6755420298707017504
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,11 +147,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 43192859, guid: 19b3f061e0d562b4a97261f0aa32250f, type: 3}
-  m_Name: TrueDecision_RfU4lBDrfEWYV-I
+  m_Script: {fileID: 1943870150, guid: 19b3f061e0d562b4a97261f0aa32250f, type: 3}
+  m_Name: State_Patrol_0UkNi9Q220mN0xs
   m_EditorClassIdentifier: 
   Identifier:
-    Path: QuantumUser/Resources/DB/CircuitExport/HFSM_Assets/MyStateMachine|TrueDecision_RfU4lBDrfEWYV-I
+    Path: QuantumUser/Resources/DB/CircuitExport/HFSM_Assets/MyStateMachine|State_Patrol_0UkNi9Q220mN0xs
     Guid:
-      Value: 2660456611903369547
+      Value: 3672737273367096284
+  Label: Patrol
+  Index: 2
+  OnUpdateLinks: []
+  OnEnterLinks: []
+  OnExitLinks: []
+  Transitions:
+  - Id: 1988fce8-6bac-4962-95f5-eaec7c5c15ba
+    EventKey: 1
+    DecisionLink:
+      Id:
+        Value: 0
+    StateLink:
+      Id:
+        Value: 2428911286144477165
+    TransitionSetLink:
+      Id:
+        Value: 0
+  ChildrenLinks: []
+  ParentLink:
+    Id:
+      Value: 0
+  Level: 0
+--- !u!114 &8184003531797205190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5666a12a469d99a4ea045cd3db8fe759, type: 3}
+  m_Name: AttackAction_FgPeuVx0Q0a_lYv
+  m_EditorClassIdentifier: 
+  Identifier:
+    Path: QuantumUser/Resources/DB/CircuitExport/HFSM_Assets/MyStateMachine|AttackAction_FgPeuVx0Q0a_lYv
+    Guid:
+      Value: 1629522953643244582
   Label: 

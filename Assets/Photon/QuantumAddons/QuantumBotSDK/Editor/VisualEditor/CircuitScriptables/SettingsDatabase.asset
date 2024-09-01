@@ -97,7 +97,7 @@ MonoBehaviour:
     SlotAssetColor: {r: 0, g: 1, b: 1, a: 1}
     BTLinkSuccess: {r: 0, g: 1, b: 0, a: 0.5}
     BTLinkFailure: {r: 1, g: 0, b: 0, a: 0.5}
-  LeftPanelWidth: 300
+  LeftPanelWidth: 318.4
   SaveHistoryCount: 0
   CreateBlackboardInitializer: 1
   BotSDKOutputFolder: Assets/QuantumUser/Resources/DB

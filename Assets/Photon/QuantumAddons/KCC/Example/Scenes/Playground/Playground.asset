@@ -131141,7 +131141,7 @@ MonoBehaviour:
         Data:
           Root:
             Id:
-              Value: 45091554860362388
+              Value: 3118288942152034677
           UsesStateHistory:
             Value: 0
         Config:
@@ -131172,11 +131172,32 @@ MonoBehaviour:
             RawValue: 0
           Z:
             RawValue: 0
-        Movement:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
+        IsPlayerClose:
+          Value: 0
+        IsPlayerAway:
+          Value: 0
+        FireInterval:
+          RawValue: 0
+        Bullet:
+          Id:
+            Value: 1286745025120436182
+        SpawnPoint:
+          Position:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 67043
+            Z:
+              RawValue: 25166
+          Rotation:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+            W:
+              RawValue: 0
     - rid: 849295390833377280
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -131965,7 +131986,7 @@ MonoBehaviour:
         Data:
           Root:
             Id:
-              Value: 45091554860362388
+              Value: 3118288942152034677
           UsesStateHistory:
             Value: 0
         Config:
@@ -131996,11 +132017,32 @@ MonoBehaviour:
             RawValue: 0
           Z:
             RawValue: 0
-        Movement:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
+        IsPlayerClose:
+          Value: 0
+        IsPlayerAway:
+          Value: 0
+        FireInterval:
+          RawValue: 0
+        Bullet:
+          Id:
+            Value: 1286745025120436182
+        SpawnPoint:
+          Position:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 67043
+            Z:
+              RawValue: 25166
+          Rotation:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+            W:
+              RawValue: 0
     - rid: 4929231176314388480
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -132159,7 +132201,7 @@ MonoBehaviour:
         Data:
           Root:
             Id:
-              Value: 45091554860362388
+              Value: 3118288942152034677
           UsesStateHistory:
             Value: 0
         Config:
@@ -132190,11 +132232,32 @@ MonoBehaviour:
             RawValue: 0
           Z:
             RawValue: 0
-        Movement:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
+        IsPlayerClose:
+          Value: 0
+        IsPlayerAway:
+          Value: 0
+        FireInterval:
+          RawValue: 0
+        Bullet:
+          Id:
+            Value: 1286745025120436182
+        SpawnPoint:
+          Position:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 67043
+            Z:
+              RawValue: 25166
+          Rotation:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+            W:
+              RawValue: 0
     - rid: 5513216178744459264
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -132713,7 +132776,7 @@ MonoBehaviour:
         Data:
           Root:
             Id:
-              Value: 45091554860362388
+              Value: 3118288942152034677
           UsesStateHistory:
             Value: 0
         Config:
@@ -132744,11 +132807,32 @@ MonoBehaviour:
             RawValue: 0
           Z:
             RawValue: 0
-        Movement:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
+        IsPlayerClose:
+          Value: 0
+        IsPlayerAway:
+          Value: 0
+        FireInterval:
+          RawValue: 0
+        Bullet:
+          Id:
+            Value: 1286745025120436182
+        SpawnPoint:
+          Position:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 67043
+            Z:
+              RawValue: 25166
+          Rotation:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+            W:
+              RawValue: 0
     - rid: 6616682827154980864
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:
@@ -133447,7 +133531,7 @@ MonoBehaviour:
         Data:
           Root:
             Id:
-              Value: 45091554860362388
+              Value: 3118288942152034677
           UsesStateHistory:
             Value: 0
         Config:
@@ -133478,11 +133562,32 @@ MonoBehaviour:
             RawValue: 0
           Z:
             RawValue: 0
-        Movement:
-          X:
-            RawValue: 0
-          Y:
-            RawValue: 0
+        IsPlayerClose:
+          Value: 0
+        IsPlayerAway:
+          Value: 0
+        FireInterval:
+          RawValue: 0
+        Bullet:
+          Id:
+            Value: 1286745025120436182
+        SpawnPoint:
+          Position:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 67043
+            Z:
+              RawValue: 25166
+          Rotation:
+            X:
+              RawValue: 0
+            Y:
+              RawValue: 0
+            Z:
+              RawValue: 0
+            W:
+              RawValue: 0
     - rid: 8188145860362633216
       type: {class: Transform3DPrototype, ns: Quantum.Prototypes, asm: Quantum.Engine}
       data:

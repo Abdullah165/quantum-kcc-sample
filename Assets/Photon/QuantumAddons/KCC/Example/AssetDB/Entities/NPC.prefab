@@ -733,7 +733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2784763235198929911, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -8
       objectReference: {fileID: 0}
     - target: {fileID: 2784763235198929911, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: m_LocalPosition.y
@@ -741,7 +741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2784763235198929911, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -43.3
       objectReference: {fileID: 0}
     - target: {fileID: 2784763235198929911, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: m_LocalRotation.w
@@ -780,6 +780,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
+      propertyPath: PhysicsBody.RotationFreeze
+      value: 255
+      objectReference: {fileID: 0}
+    - target: {fileID: 2837417578391047570, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       propertyPath: PhysicsCollider.SourceCollider
       value: 
       objectReference: {fileID: 5965002526611789112}
@@ -815,7 +819,8 @@ PrefabInstance:
       propertyPath: PhysicsCollider.ScaledShape3D.PositionOffset.Y.RawValue
       value: 58982
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2095578930350326391, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 2784763235198929911, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
@@ -827,17 +832,20 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 506928541793919104, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3006193233243328122}
+      addedObject: {fileID: 8841344930282691119}
     - targetCorrespondingSourceObject: {fileID: 506928541793919104, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1979458448188700503}
+      addedObject: {fileID: 5610291862588503339}
+    - targetCorrespondingSourceObject: {fileID: 506928541793919104, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8438384994735588742}
   m_SourcePrefab: {fileID: 100100000, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
 --- !u!1 &1857731284092253064 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 506928541793919104, guid: 9633c0dc6f5fc1f47aab20da16b597e4, type: 3}
   m_PrefabInstance: {fileID: 2219997608893534984}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3006193233243328122
+--- !u!114 &8841344930282691119
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -866,7 +874,47 @@ MonoBehaviour:
         RawValue: 0
       Z:
         RawValue: 0
---- !u!114 &1979458448188700503
+    IsPlayerClose:
+      Value: 0
+    IsPlayerAway:
+      Value: 0
+    Bullet:
+      Id:
+        Value: 1286745025120436182
+    SpawnPoint:
+      Position:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 67043
+        Z:
+          RawValue: 25166
+      Rotation:
+        X:
+          RawValue: 0
+        Y:
+          RawValue: 0
+        Z:
+          RawValue: 0
+        W:
+          RawValue: 0
+--- !u!114 &5610291862588503339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1857731284092253064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef7706d4b9fc4dc468d3a1cf0c2dde40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Prototype:
+    Settings:
+      Id:
+        Value: 380834413363505741
+--- !u!114 &8438384994735588742
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -882,7 +930,7 @@ MonoBehaviour:
     Data:
       Root:
         Id:
-          Value: 45091554860362388
+          Value: 3118288942152034677
       UsesStateHistory:
         Value: 0
     Config:

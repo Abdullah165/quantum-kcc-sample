@@ -7,5 +7,11 @@ component NPC
     [HideInInspector]
     FPVector3 TargetPosition;
     [HideInInspector]
-    FPVector2 Movement;
+    QBoolean IsPlayerClose;
+    [HideInInspector]
+    QBoolean IsPlayerAway;
+    [HideInInspector]
+    FP FireInterval;
+    AssetRef<EntityPrototype>  Bullet;
+    Transform3D SpawnPoint;
 }

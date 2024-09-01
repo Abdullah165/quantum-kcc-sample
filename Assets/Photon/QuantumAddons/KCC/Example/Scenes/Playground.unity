@@ -2333,10 +2333,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 3006193233243328122, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
-      propertyPath: Prototype.PlayerEntityRef
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4065188574126495999, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3858,6 +3854,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1857731284092253064, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4065188574126495999, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -3902,7 +3902,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4156695261263060634, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: PhysicsBody.IsEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4156695261263060634, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: PhysicsBody.RotationFreeze
+      value: 255
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8835031296126262292, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+    - {fileID: 4972850529353566396, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+    - {fileID: 2440912846105110702, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -6958,6 +6969,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1857731284092253064, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4065188574126495999, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -7002,7 +7017,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4156695261263060634, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: PhysicsBody.IsEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4156695261263060634, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: PhysicsBody.RotationFreeze
+      value: 255
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2440912846105110702, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -16910,7 +16934,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224456887264927910, guid: 9e5addbaa78b7264889bf147e593db91, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -23.999939
+      value: -24
       objectReference: {fileID: 0}
     - target: {fileID: 224473766198086110, guid: 9e5addbaa78b7264889bf147e593db91, type: 3}
       propertyPath: m_AnchorMax.y
@@ -17118,7 +17142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224898763699037404, guid: 9e5addbaa78b7264889bf147e593db91, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -23.999939
+      value: -24
       objectReference: {fileID: 0}
     - target: {fileID: 224984888091992450, guid: 9e5addbaa78b7264889bf147e593db91, type: 3}
       propertyPath: m_AnchorMax.y
@@ -20947,6 +20971,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 1857731284092253064, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4065188574126495999, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -20991,7 +21019,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4156695261263060634, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: PhysicsBody.IsEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4156695261263060634, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: PhysicsBody.RotationFreeze
+      value: 255
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2440912846105110702, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -36380,6 +36417,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 1857731284092253064, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4065188574126495999, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -36424,7 +36465,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 4156695261263060634, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: PhysicsBody.IsEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4156695261263060634, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+      propertyPath: PhysicsBody.RotationFreeze
+      value: 255
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 278090676128960895, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+    - {fileID: 1318160137766459257, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+    - {fileID: 3006193233243328122, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+    - {fileID: 2440912846105110702, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
+    - {fileID: 4747162755284300568, guid: 49916fd05979aa644b0dd9e1f37a1707, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
