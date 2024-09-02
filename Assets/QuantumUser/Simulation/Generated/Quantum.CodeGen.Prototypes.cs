@@ -235,6 +235,7 @@ namespace Quantum.Prototypes {
     public QBoolean IsPlayerAway;
     [HideInInspector()]
     public FP FireInterval;
+    [HideInInspector()]
     public AssetRef<EntityPrototype> Bullet;
     public Transform3D SpawnPoint;
     partial void MaterializeUser(Frame frame, ref Quantum.NPC result, in PrototypeMaterializationContext context);
@@ -321,6 +322,23 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.PlayerTag result, in PrototypeMaterializationContext context = default) {
+        MaterializeUser(frame, ref result, in context);
+    }
+  }
+  [System.SerializableAttribute()]
+  [Quantum.Prototypes.Prototype(typeof(Quantum.Projectile))]
+  public unsafe partial class ProjectilePrototype : ComponentPrototype<Quantum.Projectile> {
+    public FP TTL;
+    public AssetRef<ProjectileConfig> ProjectileConfig;
+    partial void MaterializeUser(Frame frame, ref Quantum.Projectile result, in PrototypeMaterializationContext context);
+    public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
+        Quantum.Projectile component = default;
+        Materialize((Frame)f, ref component, in context);
+        return f.Set(entity, component) == SetResult.ComponentAdded;
+    }
+    public void Materialize(Frame frame, ref Quantum.Projectile result, in PrototypeMaterializationContext context = default) {
+        result.TTL = this.TTL;
+        result.ProjectileConfig = this.ProjectileConfig;
         MaterializeUser(frame, ref result, in context);
     }
   }

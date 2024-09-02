@@ -126,6 +126,11 @@ MonoBehaviour:
     SystemName: 
     StartDisabled: 0
     Children: []
+  - SystemType:
+      AssemblyQualifiedName: Quantum.ProjectileSystem, Quantum.Simulation
+    SystemName: 
+    StartDisabled: 0
+    Children: []
 --- !u!114 &-4598482520668336649
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -866,6 +866,7 @@ namespace Quantum {
     [HideInInspector()]
     public FP FireInterval;
     [FieldOffset(8)]
+    [HideInInspector()]
     public AssetRef<EntityPrototype> Bullet;
     [FieldOffset(80)]
     public Transform3D SpawnPoint;
@@ -1006,17 +1007,43 @@ namespace Quantum {
         var p = (PlayerTag*)ptr;
     }
   }
+  [StructLayout(LayoutKind.Explicit)]
+  public unsafe partial struct Projectile : Quantum.IComponent {
+    public const Int32 SIZE = 16;
+    public const Int32 ALIGNMENT = 8;
+    [FieldOffset(8)]
+    public FP TTL;
+    [FieldOffset(0)]
+    public AssetRef<ProjectileConfig> ProjectileConfig;
+    public override Int32 GetHashCode() {
+      unchecked { 
+        var hash = 16141;
+        hash = hash * 31 + TTL.GetHashCode();
+        hash = hash * 31 + ProjectileConfig.GetHashCode();
+        return hash;
+      }
+    }
+    public static void Serialize(void* ptr, FrameSerializer serializer) {
+        var p = (Projectile*)ptr;
+        AssetRef.Serialize(&p->ProjectileConfig, serializer);
+        FP.Serialize(&p->TTL, serializer);
+    }
+  }
   public unsafe partial interface ISignalOnCollisionPlayerHitClimbingSurface : ISignal {
     void OnCollisionPlayerHitClimbingSurface(Frame f, CollisionInfo3D info, Player* player);
   }
   public unsafe partial interface ISignalOnCollisionPlayerExitClimbingSurface : ISignal {
     void OnCollisionPlayerExitClimbingSurface(Frame f, ExitInfo3D info, Player* player);
   }
+  public unsafe partial interface ISignalNPCShoot : ISignal {
+    void NPCShoot(Frame f, NPC* npc, Transform3D* npcTransform, FPVector3 targetDirection);
+  }
   public static unsafe partial class Constants {
   }
   public unsafe partial class Frame {
     private ISignalOnCollisionPlayerHitClimbingSurface[] _ISignalOnCollisionPlayerHitClimbingSurfaceSystems;
     private ISignalOnCollisionPlayerExitClimbingSurface[] _ISignalOnCollisionPlayerExitClimbingSurfaceSystems;
+    private ISignalNPCShoot[] _ISignalNPCShootSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
     }
@@ -1030,6 +1057,7 @@ namespace Quantum {
       Initialize(this, this.SimulationConfig.Entities, 256);
       _ISignalOnCollisionPlayerHitClimbingSurfaceSystems = BuildSignalsArray<ISignalOnCollisionPlayerHitClimbingSurface>();
       _ISignalOnCollisionPlayerExitClimbingSurfaceSystems = BuildSignalsArray<ISignalOnCollisionPlayerExitClimbingSurface>();
+      _ISignalNPCShootSystems = BuildSignalsArray<ISignalNPCShoot>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       BuildSignalsArrayOnComponentAdded<AIBlackboardComponent>();
@@ -1082,6 +1110,8 @@ namespace Quantum {
       BuildSignalsArrayOnComponentRemoved<Quantum.Player>();
       BuildSignalsArrayOnComponentAdded<Quantum.PlayerTag>();
       BuildSignalsArrayOnComponentRemoved<Quantum.PlayerTag>();
+      BuildSignalsArrayOnComponentAdded<Quantum.Projectile>();
+      BuildSignalsArrayOnComponentRemoved<Quantum.Projectile>();
       BuildSignalsArrayOnComponentAdded<Transform2D>();
       BuildSignalsArrayOnComponentRemoved<Transform2D>();
       BuildSignalsArrayOnComponentAdded<Transform2DVertical>();
@@ -1130,6 +1160,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnCollisionPlayerExitClimbingSurface(_f, info, player);
+          }
+        }
+      }
+      public void NPCShoot(NPC* npc, Transform3D* npcTransform, FPVector3 targetDirection) {
+        var array = _f._ISignalNPCShootSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.NPCShoot(_f, npc, npcTransform, targetDirection);
           }
         }
       }
@@ -1227,6 +1266,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum.Player), Quantum.Player.SIZE);
       typeRegistry.Register(typeof(PlayerRef), PlayerRef.SIZE);
       typeRegistry.Register(typeof(Quantum.PlayerTag), Quantum.PlayerTag.SIZE);
+      typeRegistry.Register(typeof(Quantum.Projectile), Quantum.Projectile.SIZE);
       typeRegistry.Register(typeof(Ptr), Ptr.SIZE);
       typeRegistry.Register(typeof(QBoolean), QBoolean.SIZE);
       typeRegistry.Register(typeof(Quantum.Ptr), Quantum.Ptr.SIZE);
@@ -1243,7 +1283,7 @@ namespace Quantum {
       typeRegistry.Register(typeof(Quantum._globals_), Quantum._globals_.SIZE);
     }
     static partial void InitComponentTypeIdGen() {
-      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 11)
+      ComponentTypeId.Reset(ComponentTypeId.BuiltInComponentCount + 12)
         .AddBuiltInComponents()
         .Add<AIBlackboardComponent>(AIBlackboardComponent.Serialize, AIBlackboardComponent.OnAdded, AIBlackboardComponent.OnRemoved, ComponentFlags.None)
         .Add<BTAgent>(BTAgent.Serialize, BTAgent.OnAdded, BTAgent.OnRemoved, ComponentFlags.None)
@@ -1255,6 +1295,7 @@ namespace Quantum {
         .Add<Quantum.NPC>(Quantum.NPC.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.Player>(Quantum.Player.Serialize, null, null, ComponentFlags.None)
         .Add<Quantum.PlayerTag>(Quantum.PlayerTag.Serialize, null, null, ComponentFlags.None)
+        .Add<Quantum.Projectile>(Quantum.Projectile.Serialize, null, null, ComponentFlags.None)
         .Add<UTAgent>(UTAgent.Serialize, UTAgent.OnAdded, UTAgent.OnRemoved, ComponentFlags.None)
         .Finish();
     }

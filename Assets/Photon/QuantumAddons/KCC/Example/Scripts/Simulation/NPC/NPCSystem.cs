@@ -1,5 +1,3 @@
-using Quantum.BotSDK;
-
 namespace Quantum
 {
     using Photon.Deterministic;
@@ -41,7 +39,7 @@ namespace Quantum
             var players = frame.GetComponentIterator<Player>();
             foreach (var player in players)
             {
-                Transform3D* playerTransform = frame.Unsafe.GetPointer<Transform3D>(player.Entity);
+                var playerTransform = frame.Unsafe.GetPointer<Transform3D>(player.Entity);
                 FP distanceSqr = (playerTransform->Position - transform->Position).SqrMagnitude;
 
                 if (distanceSqr <= 20 * 20) // Check if within attack range
@@ -56,7 +54,7 @@ namespace Quantum
             // Timer used for detection of NPC being stuck.
             npc->CheckTime += frame.DeltaTime;
 
-            if (npc->CheckTime > 1 && kcc->IsGrounded == true)
+            if (npc->CheckTime > 1 && kcc->IsGrounded == true && npc->IsPlayerAway) 
             {
                 // Try jumping after 1 second.
                 kcc->Jump(FPVector3.Up * 5);
@@ -84,18 +82,13 @@ namespace Quantum
                 npc->TargetPosition = default;
             }
 
-            //FPVector3 toPlayerPosition = (playerTransform->Position - transform->Position).XOZ;
             if (npc->IsPlayerClose)
             {
-                // npc->TargetPosition = toPlayerPosition;
-                // kcc->SetLookRotation(FPQuaternion.LookRotation(toPlayerPosition).AsEuler.XY);
-                // kcc->SetInputDirection(toPlayerPosition);
-                kcc->SetKinematicSpeed(4);
-                //TODO: Shooting the player.
+                //Stop Moving for Shooting the Player.
+                kcc->SetKinematicSpeed(0);
             }
             if(npc->IsPlayerAway)
             {
-                //UnityEngine.Debug.Log("npc is away" + npc->IsPlayerAway);
                 //Patrol again.
                 kcc->SetLookRotation(FPQuaternion.LookRotation(toTargetPosition).AsEuler.XY);
                 kcc->SetInputDirection(toTargetPosition);
@@ -105,7 +98,7 @@ namespace Quantum
 
         public void OnAdded(Frame f, EntityRef entity, NPC* component)
         {
-            component->FireInterval = FP._0_10;
+            component->FireInterval = FP._0_50;
         }
     }
 }

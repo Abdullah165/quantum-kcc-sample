@@ -12,6 +12,7 @@ component NPC
     QBoolean IsPlayerAway;
     [HideInInspector]
     FP FireInterval;
+    [HideInInspector]
     AssetRef<EntityPrototype>  Bullet;
     Transform3D SpawnPoint;
 }

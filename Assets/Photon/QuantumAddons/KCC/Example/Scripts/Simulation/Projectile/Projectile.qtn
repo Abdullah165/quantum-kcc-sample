@@ -1,0 +1,7 @@
+component Projectile
+{
+   FP TTL;
+   AssetRef<ProjectileConfig> ProjectileConfig;
+}
+
+signal NPCShoot(NPC* npc, Transform3D* npcTransform, FPVector3 targetDirection);   
