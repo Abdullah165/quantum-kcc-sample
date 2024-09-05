@@ -1,19 +1,17 @@
 namespace Quantum
 {
     using Photon.Deterministic;
-    using System.Runtime.InteropServices;
-    using UnityEditor.UIElements;
     using UnityEngine.Scripting;
+
     [Preserve]
-    public unsafe class PlayerSystem : SystemMainThreadFilter<PlayerSystem.Filter>, ISignalOnComponentAdded<Player>, ISignalOnCollisionPlayerHitClimbingSurface, ISignalOnCollisionPlayerExitClimbingSurface
+    public unsafe class PlayerSystem : SystemMainThreadFilter<PlayerSystem.Filter>, ISignalOnComponentAdded<Player>,
+        ISignalOnCollisionPlayerHitClimbingSurface, ISignalOnCollisionPlayerExitClimbingSurface
     {
-      
         public struct Filter
         {
             public EntityRef Entity;
             public Player* Player;
             public KCC* KCC;
-            public PhysicsBody3D* PhysicsBody;
             public Transform3D* Transform;
         }
 
@@ -26,9 +24,11 @@ namespace Quantum
             KCC* kcc = filter.KCC;
             Input* input = frame.GetPlayerInput(player->PlayerRef);
 
-            player->currentPosition = filter.Transform->Position; 
+            player->currentPosition = filter.Transform->Position;
 
             kcc->AddLookRotation(input->LookRotationDelta.X, input->LookRotationDelta.Y);
+
+            AdjustSpeed(player);
 
             if (player->isClimbing)
             {
@@ -37,7 +37,7 @@ namespace Quantum
             else
             {
                 EnvironmentProcessor.SetGravity(new FPVector3(0, -20, 0));
-                HandleNormalMovement(kcc, input);
+                HandleNormalMovement(kcc, input, ref filter);
             }
 
 
@@ -51,15 +51,13 @@ namespace Quantum
             {
                 if (player->wTapCounter > 0 && player->wTapCounter <= player->tapWindow)
                 {
-
                     player->isDashing = true;
                     player->dashFrameTimer = player->dashFrameDuration;
-                    PerformDash(kcc, FPVector3.Forward, player->DashForce);
+                    PerformDash(kcc, FPVector3.Forward, player->DashForce,player);
                     player->wTapCounter = 0; // Reset counter after dash
                 }
                 else
                 {
-
                     player->wTapCounter = 1;
                 }
             }
@@ -69,15 +67,13 @@ namespace Quantum
             {
                 if (player->sTapCounter > 0 && player->sTapCounter <= player->tapWindow)
                 {
-
                     player->isDashing = true;
                     player->dashFrameTimer = player->dashFrameDuration;
-                    PerformDash(kcc, FPVector3.Back, player->DashForce);
+                    PerformDash(kcc, FPVector3.Back, player->DashForce,player);
                     player->sTapCounter = 0; // Reset counter after dash
                 }
                 else
                 {
-
                     player->sTapCounter = 1;
                 }
             }
@@ -87,15 +83,13 @@ namespace Quantum
             {
                 if (player->dTapCounter > 0 && player->dTapCounter <= player->tapWindow)
                 {
-
                     player->isDashing = true;
                     player->dashFrameTimer = player->dashFrameDuration;
-                    PerformDash(kcc, FPVector3.Right, player->DashForce);
+                    PerformDash(kcc, FPVector3.Right, player->DashForce,player);
                     player->dTapCounter = 0; // Reset counter after dash
                 }
                 else
                 {
-
                     player->dTapCounter = 1;
                 }
             }
@@ -105,15 +99,13 @@ namespace Quantum
             {
                 if (player->aTapCounter > 0 && player->aTapCounter <= player->tapWindow)
                 {
-
                     player->isDashing = true;
                     player->dashFrameTimer = player->dashFrameDuration;
-                    PerformDash(kcc, FPVector3.Left, player->DashForce);
+                    PerformDash(kcc, FPVector3.Left, player->DashForce,player);
                     player->aTapCounter = 0; // Reset counter after dash
                 }
                 else
                 {
-
                     player->aTapCounter = 1;
                 }
             }
@@ -132,7 +124,7 @@ namespace Quantum
 
             if (!player->isDashing)
             {
-                HandleNormalMovement(kcc, input);
+                HandleNormalMovement(kcc, input, ref filter);
             }
 
 
@@ -171,43 +163,11 @@ namespace Quantum
             player->lastAPressed = input->MoveDirection.X < 0;
             player->lastSPressed = input->MoveDirection.Y < 0;
         }
-
-        private void HandleClimbing(KCC* kcc, Frame frame, ref Filter filter, Player* player, Input* input)
-        {
-            EnvironmentProcessor.SetGravity(FPVector3.Zero);
-            kcc->SetKinematicVelocity(FPVector3.Zero);
-
-            if (input->MoveDirection.Y != 0)
-            {
-                filter.Transform->Position += FPVector3.Up * input->MoveDirection.Y * frame.DeltaTime * player->ClimbSpeed;
-                player->tempPosition = filter.Transform->Position;
-            }
-            else if (input->MoveDirection.X != 0)
-            {
-                filter.Transform->Position.Y = player->tempPosition.Y;
-                filter.Transform->Position += FPVector3.Forward * input->MoveDirection.X * frame.DeltaTime * player->ClimbSpeed;
-                player->tempPosition = filter.Transform->Position;
-            }
-            else
-            {
-                filter.Transform->Position = player->tempPosition;
-            }
-        }
-
-        private void PerformDash(KCC* kcc, FPVector3 desiredDirection, FP dashForce)
-        {
-            FPVector3 dashDirection = kcc->Data.TransformRotation * desiredDirection;
-            kcc->AddExternalForce(dashDirection * dashForce);
-        }
-
-        private void HandleNormalMovement(KCC* kcc, Input* input)
-        {
-            FPVector3 movementDirection = kcc->Data.TransformRotation * input->MoveDirection.XOY;
-            kcc->SetInputDirection(movementDirection);
-        }
-
+        
         public void OnAdded(Frame f, EntityRef entity, Player* player)
         {
+            player->BaseSpeed = 5;
+            player->CurrentSpeed = player->BaseSpeed;
             player->DashForce = 10000;
             player->tapWindow = 15; // Number of frames within which a double-tap is detected
             player->wTapCounter = 0;
@@ -238,6 +198,51 @@ namespace Quantum
         public void OnCollisionPlayerExitClimbingSurface(Frame f, ExitInfo3D info, Player* player)
         {
             player->isClimbing = false;
+        }
+
+        private void HandleClimbing(KCC* kcc, Frame frame, ref Filter filter, Player* player, Input* input)
+        {
+            EnvironmentProcessor.SetGravity(FPVector3.Zero);
+            kcc->SetKinematicVelocity(FPVector3.Zero);
+
+            if (input->MoveDirection.Y != 0)
+            {
+                filter.Transform->Position +=
+                    FPVector3.Up * input->MoveDirection.Y * frame.DeltaTime * player->ClimbSpeed;
+                player->tempPosition = filter.Transform->Position;
+            }
+            else if (input->MoveDirection.X != 0)
+            {
+                filter.Transform->Position.Y = player->tempPosition.Y;
+                filter.Transform->Position +=
+                    FPVector3.Forward * input->MoveDirection.X * frame.DeltaTime * player->ClimbSpeed;
+                player->tempPosition = filter.Transform->Position;
+            }
+            else
+            {
+                filter.Transform->Position = player->tempPosition;
+            }
+        }
+
+        private void PerformDash(KCC* kcc, FPVector3 desiredDirection, FP dashForce,Player* player)
+        {
+            FPVector3 dashDirection = kcc->Data.TransformRotation * desiredDirection;
+            kcc->AddExternalForce(dashDirection * dashForce * player->CurrentSpeed);
+        }
+
+        private void HandleNormalMovement(KCC* kcc, Input* input, ref Filter filter)
+        {
+            FPVector3 movementDirection = kcc->Data.TransformRotation * input->MoveDirection.XOY;
+            kcc->SetInputDirection(movementDirection * filter.Player->CurrentSpeed);
+        }
+
+        private void AdjustSpeed(Player* player)
+        {
+             FP speedReductionPerProjectile = FP._0_33;
+
+            player->CurrentSpeed = player->BaseSpeed - (speedReductionPerProjectile * player->AttachedProjectilesCount);
+
+            player->CurrentSpeed = FPMath.Max(player->CurrentSpeed, FP._0_25); // Minimum speed
         }
     }
 }

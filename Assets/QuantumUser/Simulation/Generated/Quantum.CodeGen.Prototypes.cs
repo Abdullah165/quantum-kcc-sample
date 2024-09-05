@@ -259,6 +259,9 @@ namespace Quantum.Prototypes {
   [System.SerializableAttribute()]
   [Quantum.Prototypes.Prototype(typeof(Quantum.Player))]
   public unsafe partial class PlayerPrototype : ComponentPrototype<Quantum.Player> {
+    public Int32 AttachedProjectilesCount;
+    public FP BaseSpeed;
+    public FP CurrentSpeed;
     public FP JumpForce;
     public FP DashForce;
     public FP LastDashTime;
@@ -287,6 +290,9 @@ namespace Quantum.Prototypes {
         return f.Set(entity, component) == SetResult.ComponentAdded;
     }
     public void Materialize(Frame frame, ref Quantum.Player result, in PrototypeMaterializationContext context = default) {
+        result.AttachedProjectilesCount = this.AttachedProjectilesCount;
+        result.BaseSpeed = this.BaseSpeed;
+        result.CurrentSpeed = this.CurrentSpeed;
         result.JumpForce = this.JumpForce;
         result.DashForce = this.DashForce;
         result.LastDashTime = this.LastDashTime;
@@ -329,6 +335,7 @@ namespace Quantum.Prototypes {
   [Quantum.Prototypes.Prototype(typeof(Quantum.Projectile))]
   public unsafe partial class ProjectilePrototype : ComponentPrototype<Quantum.Projectile> {
     public FP TTL;
+    public FPVector3 PlayerHitPosition;
     public AssetRef<ProjectileConfig> ProjectileConfig;
     partial void MaterializeUser(Frame frame, ref Quantum.Projectile result, in PrototypeMaterializationContext context);
     public override Boolean AddToEntity(FrameBase f, EntityRef entity, in PrototypeMaterializationContext context) {
@@ -338,6 +345,7 @@ namespace Quantum.Prototypes {
     }
     public void Materialize(Frame frame, ref Quantum.Projectile result, in PrototypeMaterializationContext context = default) {
         result.TTL = this.TTL;
+        result.PlayerHitPosition = this.PlayerHitPosition;
         result.ProjectileConfig = this.ProjectileConfig;
         MaterializeUser(frame, ref result, in context);
     }

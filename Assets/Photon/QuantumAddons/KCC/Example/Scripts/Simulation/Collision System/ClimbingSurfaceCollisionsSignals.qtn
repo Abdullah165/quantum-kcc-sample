@@ -1,2 +1,0 @@
-signal OnCollisionPlayerHitClimbingSurface(CollisionInfo3D info,Player* player);
-signal OnCollisionPlayerExitClimbingSurface(ExitInfo3D info,Player* player);

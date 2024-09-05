@@ -1,6 +1,7 @@
 component Projectile
 {
    FP TTL;
+   FPVector3 PlayerHitPosition;
    AssetRef<ProjectileConfig> ProjectileConfig;
 }
 

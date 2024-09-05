@@ -31,16 +31,16 @@ namespace Quantum
         {
             HFSMManager.Update(frame, frame.DeltaTime, filter.Entity);
 
-            EntityRef entityRef = filter.Entity;
-            Transform3D* transform = filter.Transform;
-            NPC* npc = filter.NPC;
-            KCC* kcc = filter.KCC;
+            var entityRef = filter.Entity;
+            var transform = filter.Transform;
+            var npc = filter.NPC;
+            var kcc = filter.KCC;
             
             var players = frame.GetComponentIterator<Player>();
             foreach (var player in players)
             {
                 var playerTransform = frame.Unsafe.GetPointer<Transform3D>(player.Entity);
-                FP distanceSqr = (playerTransform->Position - transform->Position).SqrMagnitude;
+                var distanceSqr = (playerTransform->Position - transform->Position).SqrMagnitude;
 
                 if (distanceSqr <= 20 * 20) // Check if within attack range
                 {
@@ -67,7 +67,7 @@ namespace Quantum
                 npc->TargetPosition = frame.GetRandomWaypoint().Position;
             }
 
-            FPVector3 toCheckPosition = (npc->CheckPosition - transform->Position).XOZ;
+            var toCheckPosition = (npc->CheckPosition - transform->Position).XOZ;
             if (toCheckPosition.SqrMagnitude > 1)
             {
                 // Reset timer when the KCC is 1m away from last check position.
@@ -75,7 +75,7 @@ namespace Quantum
                 npc->CheckTime = 0;
             }
 
-            FPVector3 toTargetPosition = (npc->TargetPosition - transform->Position).XOZ;
+            var toTargetPosition = (npc->TargetPosition - transform->Position).XOZ;
             if (toTargetPosition.SqrMagnitude < 1)
             {
                 // Target waypoint almost reached, let's reset and find a new one.

@@ -898,52 +898,61 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Player : Quantum.IComponent {
-    public const Int32 SIZE = 136;
+    public const Int32 SIZE = 152;
     public const Int32 ALIGNMENT = 8;
-    [FieldOffset(72)]
-    public FP JumpForce;
-    [FieldOffset(64)]
-    public FP DashForce;
-    [FieldOffset(80)]
-    public FP LastDashTime;
-    [FieldOffset(24)]
-    public Int32 tapWindow;
-    [FieldOffset(28)]
-    public Int32 wTapCounter;
-    [FieldOffset(20)]
-    public Int32 sTapCounter;
-    [FieldOffset(8)]
-    public Int32 dTapCounter;
-    [FieldOffset(4)]
-    public Int32 aTapCounter;
-    [FieldOffset(40)]
-    public QBoolean isDashing;
-    [FieldOffset(12)]
-    public Int32 dashFrameDuration;
-    [FieldOffset(16)]
-    public Int32 dashFrameTimer;
-    [FieldOffset(56)]
-    public QBoolean lastWPressed;
-    [FieldOffset(48)]
-    public QBoolean lastDPressed;
-    [FieldOffset(44)]
-    public QBoolean lastAPressed;
-    [FieldOffset(52)]
-    public QBoolean lastSPressed;
-    [FieldOffset(36)]
-    public QBoolean isClimbing;
     [FieldOffset(0)]
-    public Int32 ClimbSpeed;
-    [FieldOffset(112)]
-    public FPVector3 tempPosition;
+    public Int32 AttachedProjectilesCount;
+    [FieldOffset(64)]
+    public FP BaseSpeed;
+    [FieldOffset(72)]
+    public FP CurrentSpeed;
     [FieldOffset(88)]
-    public FPVector3 currentPosition;
+    public FP JumpForce;
+    [FieldOffset(80)]
+    public FP DashForce;
+    [FieldOffset(96)]
+    public FP LastDashTime;
+    [FieldOffset(28)]
+    public Int32 tapWindow;
     [FieldOffset(32)]
+    public Int32 wTapCounter;
+    [FieldOffset(24)]
+    public Int32 sTapCounter;
+    [FieldOffset(12)]
+    public Int32 dTapCounter;
+    [FieldOffset(8)]
+    public Int32 aTapCounter;
+    [FieldOffset(44)]
+    public QBoolean isDashing;
+    [FieldOffset(16)]
+    public Int32 dashFrameDuration;
+    [FieldOffset(20)]
+    public Int32 dashFrameTimer;
+    [FieldOffset(60)]
+    public QBoolean lastWPressed;
+    [FieldOffset(52)]
+    public QBoolean lastDPressed;
+    [FieldOffset(48)]
+    public QBoolean lastAPressed;
+    [FieldOffset(56)]
+    public QBoolean lastSPressed;
+    [FieldOffset(40)]
+    public QBoolean isClimbing;
+    [FieldOffset(4)]
+    public Int32 ClimbSpeed;
+    [FieldOffset(128)]
+    public FPVector3 tempPosition;
+    [FieldOffset(104)]
+    public FPVector3 currentPosition;
+    [FieldOffset(36)]
     [HideInInspector()]
     public PlayerRef PlayerRef;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 2621;
+        hash = hash * 31 + AttachedProjectilesCount.GetHashCode();
+        hash = hash * 31 + BaseSpeed.GetHashCode();
+        hash = hash * 31 + CurrentSpeed.GetHashCode();
         hash = hash * 31 + JumpForce.GetHashCode();
         hash = hash * 31 + DashForce.GetHashCode();
         hash = hash * 31 + LastDashTime.GetHashCode();
@@ -969,6 +978,7 @@ namespace Quantum {
     }
     public static void Serialize(void* ptr, FrameSerializer serializer) {
         var p = (Player*)ptr;
+        serializer.Stream.Serialize(&p->AttachedProjectilesCount);
         serializer.Stream.Serialize(&p->ClimbSpeed);
         serializer.Stream.Serialize(&p->aTapCounter);
         serializer.Stream.Serialize(&p->dTapCounter);
@@ -984,6 +994,8 @@ namespace Quantum {
         QBoolean.Serialize(&p->lastDPressed, serializer);
         QBoolean.Serialize(&p->lastSPressed, serializer);
         QBoolean.Serialize(&p->lastWPressed, serializer);
+        FP.Serialize(&p->BaseSpeed, serializer);
+        FP.Serialize(&p->CurrentSpeed, serializer);
         FP.Serialize(&p->DashForce, serializer);
         FP.Serialize(&p->JumpForce, serializer);
         FP.Serialize(&p->LastDashTime, serializer);
@@ -1009,16 +1021,19 @@ namespace Quantum {
   }
   [StructLayout(LayoutKind.Explicit)]
   public unsafe partial struct Projectile : Quantum.IComponent {
-    public const Int32 SIZE = 16;
+    public const Int32 SIZE = 40;
     public const Int32 ALIGNMENT = 8;
     [FieldOffset(8)]
     public FP TTL;
+    [FieldOffset(16)]
+    public FPVector3 PlayerHitPosition;
     [FieldOffset(0)]
     public AssetRef<ProjectileConfig> ProjectileConfig;
     public override Int32 GetHashCode() {
       unchecked { 
         var hash = 16141;
         hash = hash * 31 + TTL.GetHashCode();
+        hash = hash * 31 + PlayerHitPosition.GetHashCode();
         hash = hash * 31 + ProjectileConfig.GetHashCode();
         return hash;
       }
@@ -1027,6 +1042,7 @@ namespace Quantum {
         var p = (Projectile*)ptr;
         AssetRef.Serialize(&p->ProjectileConfig, serializer);
         FP.Serialize(&p->TTL, serializer);
+        FPVector3.Serialize(&p->PlayerHitPosition, serializer);
     }
   }
   public unsafe partial interface ISignalOnCollisionPlayerHitClimbingSurface : ISignal {
@@ -1034,6 +1050,9 @@ namespace Quantum {
   }
   public unsafe partial interface ISignalOnCollisionPlayerExitClimbingSurface : ISignal {
     void OnCollisionPlayerExitClimbingSurface(Frame f, ExitInfo3D info, Player* player);
+  }
+  public unsafe partial interface ISignalOnCollisionProjectileHitPlayer : ISignal {
+    void OnCollisionProjectileHitPlayer(Frame f, CollisionInfo3D info);
   }
   public unsafe partial interface ISignalNPCShoot : ISignal {
     void NPCShoot(Frame f, NPC* npc, Transform3D* npcTransform, FPVector3 targetDirection);
@@ -1043,6 +1062,7 @@ namespace Quantum {
   public unsafe partial class Frame {
     private ISignalOnCollisionPlayerHitClimbingSurface[] _ISignalOnCollisionPlayerHitClimbingSurfaceSystems;
     private ISignalOnCollisionPlayerExitClimbingSurface[] _ISignalOnCollisionPlayerExitClimbingSurfaceSystems;
+    private ISignalOnCollisionProjectileHitPlayer[] _ISignalOnCollisionProjectileHitPlayerSystems;
     private ISignalNPCShoot[] _ISignalNPCShootSystems;
     partial void AllocGen() {
       _globals = (_globals_*)Context.Allocator.AllocAndClear(sizeof(_globals_));
@@ -1057,6 +1077,7 @@ namespace Quantum {
       Initialize(this, this.SimulationConfig.Entities, 256);
       _ISignalOnCollisionPlayerHitClimbingSurfaceSystems = BuildSignalsArray<ISignalOnCollisionPlayerHitClimbingSurface>();
       _ISignalOnCollisionPlayerExitClimbingSurfaceSystems = BuildSignalsArray<ISignalOnCollisionPlayerExitClimbingSurface>();
+      _ISignalOnCollisionProjectileHitPlayerSystems = BuildSignalsArray<ISignalOnCollisionProjectileHitPlayer>();
       _ISignalNPCShootSystems = BuildSignalsArray<ISignalNPCShoot>();
       _ComponentSignalsOnAdded = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
       _ComponentSignalsOnRemoved = new ComponentReactiveCallbackInvoker[ComponentTypeId.Type.Length];
@@ -1160,6 +1181,15 @@ namespace Quantum {
           var s = array[i];
           if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
             s.OnCollisionPlayerExitClimbingSurface(_f, info, player);
+          }
+        }
+      }
+      public void OnCollisionProjectileHitPlayer(CollisionInfo3D info) {
+        var array = _f._ISignalOnCollisionProjectileHitPlayerSystems;
+        for (Int32 i = 0; i < array.Length; ++i) {
+          var s = array[i];
+          if (_f.SystemIsEnabledInHierarchy((SystemBase)s)) {
+            s.OnCollisionProjectileHitPlayer(_f, info);
           }
         }
       }

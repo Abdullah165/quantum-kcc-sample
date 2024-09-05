@@ -131178,8 +131178,6 @@ MonoBehaviour:
           Value: 0
         FireInterval:
           RawValue: 0
-        TTL:
-          RawValue: 0
         Bullet:
           Id:
             Value: 1286745025120436182
@@ -132025,8 +132023,6 @@ MonoBehaviour:
           Value: 0
         FireInterval:
           RawValue: 0
-        TTL:
-          RawValue: 0
         Bullet:
           Id:
             Value: 1286745025120436182
@@ -132241,8 +132237,6 @@ MonoBehaviour:
         IsPlayerAway:
           Value: 0
         FireInterval:
-          RawValue: 0
-        TTL:
           RawValue: 0
         Bullet:
           Id:
@@ -132818,8 +132812,6 @@ MonoBehaviour:
         IsPlayerAway:
           Value: 0
         FireInterval:
-          RawValue: 0
-        TTL:
           RawValue: 0
         Bullet:
           Id:
@@ -133575,8 +133567,6 @@ MonoBehaviour:
         IsPlayerAway:
           Value: 0
         FireInterval:
-          RawValue: 0
-        TTL:
           RawValue: 0
         Bullet:
           Id:

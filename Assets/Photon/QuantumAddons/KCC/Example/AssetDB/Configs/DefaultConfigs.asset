@@ -117,7 +117,7 @@ MonoBehaviour:
     StartDisabled: 0
     Children: []
   - SystemType:
-      AssemblyQualifiedName: Quantum.ClimbingSurfaceCollisionsSystem, Quantum.Simulation
+      AssemblyQualifiedName: Quantum.CollisionsSystem, Quantum.Simulation
     SystemName: 
     StartDisabled: 0
     Children: []

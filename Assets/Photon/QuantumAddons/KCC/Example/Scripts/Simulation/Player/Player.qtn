@@ -1,5 +1,9 @@
 component Player
 {
+    int AttachedProjectilesCount; 
+    FP BaseSpeed;                  
+    FP CurrentSpeed;    
+    
 	FP JumpForce;
     FP DashForce;
     FP LastDashTime;
