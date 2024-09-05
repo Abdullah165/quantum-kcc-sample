@@ -122,7 +122,7 @@ namespace Quantum
             }
 
 
-            if (!player->isDashing)
+            if (!player->isDashing && kcc->IsGrounded)
             {
                 HandleNormalMovement(kcc, input, ref filter);
             }
@@ -226,8 +226,8 @@ namespace Quantum
 
         private void PerformDash(KCC* kcc, FPVector3 desiredDirection, FP dashForce,Player* player)
         {
-            FPVector3 dashDirection = kcc->Data.TransformRotation * desiredDirection;
-            kcc->AddExternalForce(dashDirection * dashForce * player->CurrentSpeed);
+            var dashDirection = kcc->Data.TransformRotation * desiredDirection;
+            kcc->AddExternalForce(dashDirection * dashForce);
         }
 
         private void HandleNormalMovement(KCC* kcc, Input* input, ref Filter filter)

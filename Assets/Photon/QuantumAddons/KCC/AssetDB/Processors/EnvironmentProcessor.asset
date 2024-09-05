@@ -29,7 +29,7 @@ MonoBehaviour:
   KinematicGroundFriction:
     RawValue: 2293760
   DynamicAirFriction:
-    RawValue: 131072
+    RawValue: 1310720
   KinematicAirAcceleration:
     RawValue: 327680
   KinematicAirFriction:
